@@ -1,0 +1,776 @@
+<title>Porch Light</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Caveat:wght@500;700&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one phone-width app column; on wide screens the prototype controls and notes sit beside it */
+:root {
+  --bg: #f2f0fa;
+  --surface: #ffffff;
+  --surface-2: #f7f5fd;
+  --ink: #1d1a36;
+  --muted: #6a6688;
+  --line: #e3dff2;
+  --glow: #ffc531;
+  --glow-soft: rgba(255, 190, 40, .30);
+  --glow-line: rgba(230, 160, 0, .45);
+  --note: #fff6d3;
+  --pop: #d93a7a;
+  --pop-ink: #ffffff;
+  --open: #12865a;
+  --open-bg: #daf3e7;
+  --text: #a85f00;
+  --text-bg: #ffefd2;
+  --off: #8d89a6;
+  --off-bg: #ebe9f3;
+  --shadow: 0 1px 2px rgba(29, 26, 54, .06), 0 8px 24px rgba(29, 26, 54, .07);
+  --f-display: 'Bricolage Grotesque', 'Trebuchet MS', system-ui, sans-serif;
+  --f-body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --f-hand: 'Caveat', 'Bradley Hand', 'Comic Sans MS', cursive;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14122a; --surface: #1f1c3b; --surface-2: #19173a; --ink: #f1efff; --muted: #a7a3c8; --line: #34305a;
+    --glow: #ffcf4d; --glow-soft: rgba(255, 207, 77, .20); --glow-line: rgba(255, 207, 77, .40); --note: #2c2846;
+    --pop: #ff6ba5; --pop-ink: #22081a; --open: #4fd69b; --open-bg: rgba(79, 214, 155, .14);
+    --text: #ffbe55; --text-bg: rgba(255, 190, 85, .14); --off: #8f8bb0; --off-bg: rgba(143, 139, 176, .14);
+    --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 28px rgba(0, 0, 0, .28);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14122a; --surface: #1f1c3b; --surface-2: #19173a; --ink: #f1efff; --muted: #a7a3c8; --line: #34305a;
+  --glow: #ffcf4d; --glow-soft: rgba(255, 207, 77, .20); --glow-line: rgba(255, 207, 77, .40); --note: #2c2846;
+  --pop: #ff6ba5; --pop-ink: #22081a; --open: #4fd69b; --open-bg: rgba(79, 214, 155, .14);
+  --text: #ffbe55; --text-bg: rgba(255, 190, 85, .14); --off: #8f8bb0; --off-bg: rgba(143, 139, 176, .14);
+  --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 28px rgba(0, 0, 0, .28);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 15px/1.45 var(--f-body); }
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 3px solid var(--pop); outline-offset: 2px; }
+
+.shell {
+  max-width: 860px; margin: 0 auto;
+  padding-block: 0 96px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid; gap: 32px;
+}
+.app { display: grid; gap: 20px; min-width: 0; }
+@media (min-width: 900px) {
+  .shell { grid-template-columns: minmax(0, 480px) 300px; justify-content: center; align-items: start; gap: 40px; }
+  .aside { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
+}
+
+/* Header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-block: 14px 10px; display: grid; gap: 12px; }
+.brandrow { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; font: 800 26px/1 var(--f-display); letter-spacing: -.02em; margin: 0; }
+.brand .lamp { width: 16px; height: 16px; }
+.who { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); }
+.who select { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 10px; font-weight: 600; color: var(--ink); max-width: 170px; }
+.tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; }
+.tabs button { border: 0; background: transparent; border-radius: 999px; padding: 9px 6px; font-weight: 600; font-size: 14px; color: var(--muted); }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--bg); }
+.count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; margin-left: 4px; padding: 0 6px; border-radius: 999px; background: var(--glow); color: #2a2000; font-size: 12px; font-weight: 700; }
+
+/* Lamp: the porch light itself */
+.lamp { display: inline-block; flex: none; width: 14px; height: 14px; border-radius: 50%; background: var(--off); }
+.lamp.open { background: var(--glow); box-shadow: 0 0 0 4px var(--glow-soft), 0 0 16px 5px var(--glow-soft); animation: glow 3.2s ease-in-out infinite; }
+.lamp.text { background: var(--text); box-shadow: 0 0 0 4px var(--text-bg); }
+@keyframes glow { 50% { box-shadow: 0 0 0 5px var(--glow-soft), 0 0 26px 9px var(--glow-soft); } }
+@media (prefers-reduced-motion: reduce) { .lamp.open { animation: none; } .toast { animation: none !important; } }
+
+/* Board */
+.hello { display: grid; gap: 4px; }
+.hello h2 { margin: 0; font: 800 34px/1.02 var(--f-display); letter-spacing: -.025em; text-wrap: balance; }
+.hello p { margin: 0; color: var(--muted); }
+.list { display: grid; gap: 14px; }
+.group-label { margin: 6px 0 -4px; font-size: 12px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+
+.card { position: relative; display: grid; gap: 12px; padding: 16px; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow); min-width: 0; }
+.card.open { background: radial-gradient(120% 90% at 0% 0%, var(--glow-soft), transparent 62%), var(--surface); border-color: var(--glow-line); }
+.card.closed { background: var(--surface-2); box-shadow: none; }
+.card.closed .av { filter: grayscale(.7); opacity: .8; }
+.card-top { display: flex; align-items: center; gap: 12px; }
+.av { position: relative; flex: none; width: 46px; height: 46px; border-radius: 15px; display: grid; place-items: center; font-size: 24px; background: var(--surface-2); border: 1px solid var(--line); }
+.av .lamp { position: absolute; right: -4px; bottom: -4px; border: 2px solid var(--surface); width: 16px; height: 16px; }
+.names { min-width: 0; flex: 1; }
+.names h3 { margin: 0; font: 700 19px/1.15 var(--f-display); letter-spacing: -.01em; }
+.names p { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+.you-tag { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 999px; background: var(--ink); color: var(--bg); font: 700 11px/1.6 var(--f-body); letter-spacing: .04em; vertical-align: 3px; }
+
+.status { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-weight: 700; font-size: 13px; }
+.pill.open { color: var(--open); background: var(--open-bg); }
+.pill.text { color: var(--text); background: var(--text-bg); }
+.pill.closed { color: var(--off); background: var(--off-bg); }
+.tabular { font-variant-numeric: tabular-nums; }
+
+.note { margin: 0; padding: 10px 14px 12px; background: var(--note); border-radius: 4px 16px 16px 16px; font: 600 23px/1.12 var(--f-hand); transform: rotate(-.5deg); overflow-wrap: anywhere; }
+.meta { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
+.meta b { color: var(--ink); font-weight: 600; }
+.visitors { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; }
+.stack { display: flex; }
+.stack span { width: 26px; height: 26px; display: grid; place-items: center; font-size: 14px; border-radius: 50%; background: var(--surface); border: 2px solid var(--glow); margin-left: -6px; }
+.stack span:first-child { margin-left: 0; }
+
+.actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 10px 16px; font-weight: 600; font-size: 15px; }
+.btn:hover { border-color: var(--muted); }
+.btn.pop { background: var(--pop); color: var(--pop-ink); border-color: transparent; }
+.btn.pop:hover { filter: brightness(1.06); }
+.btn.ink { background: var(--ink); color: var(--bg); border-color: transparent; }
+.btn.ghost { background: transparent; border-color: transparent; color: var(--muted); padding-inline: 8px; }
+.btn.block { width: 100%; padding-block: 14px; font-size: 16px; }
+.btn:disabled { opacity: .5; cursor: default; }
+.bell { position: absolute; top: 14px; right: 14px; width: 38px; height: 38px; padding: 0; border-radius: 50%; font-size: 17px; }
+.bell[aria-pressed="true"] { background: var(--glow); border-color: transparent; }
+.card .card-top { padding-right: 44px; }
+.chip { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 7px 12px; font-size: 14px; font-weight: 500; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.eta { display: grid; gap: 8px; padding: 12px; border-radius: 16px; background: var(--surface-2); border: 1px dashed var(--line); }
+.eta p { margin: 0; font-weight: 600; font-size: 14px; }
+.headed { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 10px 14px; border-radius: 16px; background: var(--open-bg); color: var(--open); font-weight: 600; font-size: 14px; }
+
+/* My house */
+.sec { display: grid; gap: 10px; }
+.sec > h2, .sec-h { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.sec .hint { margin: 0; font-size: 13px; color: var(--muted); }
+.opts { display: grid; gap: 8px; }
+.opt { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; padding: 13px 16px; border: 1.5px solid var(--line); border-radius: 18px; background: var(--surface); }
+.opt strong { display: block; font: 700 17px/1.2 var(--f-display); }
+.opt span.sub { display: block; font-size: 13px; color: var(--muted); }
+.opt[aria-pressed="true"] { border-color: var(--ink); box-shadow: 0 0 0 4px var(--glow-soft); }
+.field { display: grid; gap: 6px; }
+.field label { font-size: 13px; font-weight: 600; }
+.input, textarea.input { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 14px; padding: 11px 13px; font-size: 15px; }
+textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f-hand); }
+.counter { justify-self: end; font-size: 12px; color: var(--muted); }
+.preview-wrap { display: grid; gap: 8px; padding: 14px; border-radius: 24px; border: 1.5px dashed var(--line); }
+.divider { height: 1px; background: var(--line); margin: 6px 0; }
+.hrow { display: grid; gap: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
+.hrow-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; }
+.days { display: flex; gap: 6px; flex-wrap: wrap; }
+.day { width: 36px; height: 36px; padding: 0; border-radius: 50%; border: 1px solid var(--line); background: var(--surface-2); font-weight: 700; font-size: 13px; }
+.day[aria-pressed="true"] { background: var(--glow); color: #2a2000; border-color: transparent; }
+.times { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+.times input { border: 1px solid var(--line); background: var(--surface-2); border-radius: 10px; padding: 7px 9px; }
+.empty { margin: 0; padding: 14px; border-radius: 16px; background: var(--surface-2); color: var(--muted); font-size: 14px; }
+.vrow { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); font-size: 14px; }
+.vrow .av { width: 34px; height: 34px; font-size: 17px; border-radius: 11px; }
+
+/* Alerts */
+.srow { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+.srow .names h3 { font-size: 16px; }
+.switch { flex: none; position: relative; width: 50px; height: 30px; border-radius: 999px; border: 0; background: var(--off-bg); padding: 0; }
+.switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%; background: var(--surface); box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .18s; }
+.switch[aria-checked="true"] { background: var(--pop); }
+.switch[aria-checked="true"]::after { transform: translateX(20px); }
+.feed { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.feed li { display: flex; gap: 10px; align-items: baseline; padding: 10px 12px; border-radius: 14px; background: var(--surface-2); font-size: 14px; }
+.feed time { flex: none; font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 62px; }
+
+/* Aside: prototype controls + notes */
+.aside { display: grid; gap: 16px; min-width: 0; padding-top: 14px; }
+.panel { display: grid; gap: 12px; padding: 16px; border-radius: 20px; border: 1.5px dashed var(--line); }
+.panel h2 { margin: 0; font: 700 16px/1.2 var(--f-display); }
+.panel p, .panel li { margin: 0; font-size: 13px; color: var(--muted); }
+.panel ul { margin: 0; padding-left: 18px; display: grid; gap: 8px; }
+.panel li b { color: var(--ink); font-weight: 600; }
+.clock { font: 800 28px/1 var(--f-display); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.clock small { display: block; margin-top: 4px; font: 500 12px var(--f-body); color: var(--muted); letter-spacing: 0; }
+.panel .chips .chip { font-size: 13px; padding: 6px 11px; }
+
+.toasts { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: grid; justify-items: center; gap: 8px; pointer-events: none;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.toast { max-width: 440px; padding: 12px 16px; border-radius: 16px; background: var(--ink); color: var(--bg); font-weight: 600; font-size: 14px; box-shadow: var(--shadow); animation: up .25s ease-out; }
+@keyframes up { from { transform: translateY(10px); opacity: 0; } }
+</style>
+
+<div class="shell">
+  <main class="app">
+    <header class="top">
+      <div class="brandrow">
+        <h1 class="brand"><span class="lamp open" aria-hidden="true"></span>Porch Light</h1>
+        <div class="who"><label for="whoami">You are</label><select id="whoami"></select></div>
+      </div>
+      <nav class="tabs" role="tablist" id="tabs"></nav>
+    </header>
+    <section id="view"></section>
+  </main>
+
+  <aside class="aside">
+    <div class="panel">
+      <h2>Prototype controls</h2>
+      <div class="clock tabular" id="clock"></div>
+      <p>Move the clock forward to watch statuses expire and porch hours switch on and off.</p>
+      <div class="chips">
+        <button class="chip" data-act="clock" data-mins="30">+30 min</button>
+        <button class="chip" data-act="clock" data-mins="120">+2 hours</button>
+        <button class="chip" data-act="clock-morning">Next morning 9 AM</button>
+      </div>
+      <div class="chips">
+        <button class="chip" data-act="sim-open">Simulate: a friend opens up</button>
+        <button class="chip" data-act="reset">Reset demo</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>What we're testing</h2>
+      <ul>
+        <li><b>Statuses expire.</b> Every "Come on by" has an end time, then the house falls back to its porch hours. Is 2 hours the right default?</li>
+        <li><b>Notes expire too.</b> The note goes away with the status, so "made ice cream!" never lingers into Tuesday.</li>
+        <li><b>High trust identity.</b> Anyone can pick any house in "You are." Fine for a beta with friends; a phone-number login like Partiful's comes later.</li>
+        <li><b>Text first vs. come on by.</b> Is a middle option useful, or does it bring back the awkward asking?</li>
+        <li><b>Notify me.</b> Tap the bell on a house. In the real app these would be push notifications or texts.</li>
+      </ul>
+    </div>
+  </aside>
+</div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>
+(() => {
+  const MIN = 60e3, HOUR = 60 * MIN;
+  const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const DAY_INITIAL = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  const STATES = {
+    open:   { label: 'Come on by', sub: 'Drop in, no need to ask' },
+    text:   { label: 'Text first', sub: "We're home, check with us first" },
+    closed: { label: 'Lights off', sub: 'Not today' },
+  };
+  const DURATIONS = [
+    { k: '1h', label: '1 hour' }, { k: '2h', label: '2 hours' }, { k: '4h', label: '4 hours' },
+    { k: 'tonight', label: 'Until 9 PM' }, { k: 'weekend', label: 'All weekend' },
+  ];
+  const IDEAS = [
+    "👶 Open for newborn visits! Come say hi",
+    "🍦 We made ice cream. Come get a scoop!",
+    "☕ Coffee's on",
+    "🔥 Fire pit is going tonight",
+    "🛝 Kids are playing out front",
+    "🍅 Too many tomatoes. Take some!",
+  ];
+  const SURPRISES = [
+    "🍪 Just pulled cookies out of the oven",
+    "🌭 Grill's on, we have extra",
+    "🧩 Puzzle on the table, need help",
+  ];
+  const ETAS = [{ m: 5, label: 'Leaving now' }, { m: 15, label: '~15 min' }, { m: 30, label: '~30 min' }, { m: 60, label: 'In an hour' }];
+
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const $ = s => document.querySelector(s);
+
+  // ---- Demo clock: starts on the coming Saturday at 2 PM and ticks in real time ----
+  let base, offset, t0;
+  const now = () => base + offset + (Date.now() - t0);
+  function demoStart() {
+    const d = new Date(); d.setHours(14, 0, 0, 0);
+    d.setDate(d.getDate() + (6 - d.getDay() + 7) % 7);
+    return d.getTime();
+  }
+  function atDay(t, dayOffset, mins) {
+    const d = new Date(t); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() + dayOffset);
+    return d.getTime() + mins * MIN;
+  }
+  const mins = s => { const [h, m] = s.split(':').map(Number); return h * 60 + m; };
+
+  // ---- State ----
+  let households, currentId, watched, feed, prevStates, draft, omwOpen, asked, tab;
+  let uid = 1;
+
+  function seed() {
+    base = demoStart(); offset = 0; t0 = Date.now();
+    const n = base;
+    households = [
+      { id: 'me', name: 'Our house', members: 'You + the new baby', emoji: '🏡',
+        manual: { state: 'open', until: n + 3 * HOUR },
+        note: "Open for newborn visits! We're in the backyard, come say hi 👶",
+        where: 'Backyard, come through the side gate',
+        hoursNote: 'Porch hours! Baby naps permitting, knock gently.',
+        hours: [{ id: uid++, days: [1, 2, 3, 4, 5], start: '16:00', end: '18:00' }, { id: uid++, days: [0, 6], start: '10:00', end: '12:00' }],
+        visitors: [] },
+      { id: 'okafor', name: 'The Okafors', members: 'Ada, Tunde + 3 kids', emoji: '🛝',
+        manual: { state: 'open', until: n + 2 * HOUR },
+        note: "Kids are on the trampoline and the coffee's hot ☕ Bring your littles!",
+        where: 'Front porch', hoursNote: '', hours: [],
+        visitors: [{ from: 'priya', eta: n + 12 * MIN }] },
+      { id: 'mo', name: 'Mo & Jules', members: 'and Pickle the dog', emoji: '🎸',
+        manual: null, note: '',
+        where: 'Garage, follow the music',
+        hoursNote: "Saturday afternoons we're in the garage making noise. Wander in, grab a tambourine.",
+        hours: [{ id: uid++, days: [6], start: '13:00', end: '17:00' }], visitors: [] },
+      { id: 'priya', name: 'Priya & Sam', members: '2 adults, 1 very old cat', emoji: '🪴',
+        manual: { state: 'text', until: n + 4 * HOUR },
+        note: 'Home doing garden stuff. Text first, we might be covered in dirt 🌱',
+        where: 'Back garden', hoursNote: 'Sunday porch hours: there is usually a pot of soup going.',
+        hours: [{ id: uid++, days: [0], start: '16:00', end: '19:00' }], visitors: [] },
+      { id: 'bea', name: 'Bea next door', members: 'Bea + Biscuit the cat', emoji: '🐈',
+        manual: null, note: '', where: 'Front stoop',
+        hoursNote: 'Morning tea most weekdays. Biscuit will greet you.',
+        hours: [{ id: uid++, days: [1, 2, 3, 4, 5], start: '09:00', end: '11:00' }], visitors: [] },
+      { id: 'delgado', name: 'The Delgados', members: 'Luis, Marisol + Abuela', emoji: '🌮',
+        manual: { state: 'closed', until: atDay(n, 1, 20 * 60) },
+        note: "Away at Grandma's. Back Sunday night!", where: 'Side patio',
+        hoursNote: 'Taco Friday! Door is open, bring a drink.',
+        hours: [{ id: uid++, days: [5], start: '17:00', end: '20:00' }], visitors: [] },
+    ];
+    currentId = 'me';
+    watched = new Set(['okafor', 'bea']);
+    feed = [];
+    asked = new Set();
+    omwOpen = null;
+    tab = 'board';
+    draft = freshDraft();
+    prevStates = snapshot();
+  }
+
+  const byId = id => households.find(h => h.id === id);
+  const me = () => byId(currentId);
+
+  // ---- Status logic ----
+  function activeWindow(h, t) {
+    const day = new Date(t).getDay();
+    for (const w of h.hours) {
+      if (!w.days.includes(day)) continue;
+      const s = atDay(t, 0, mins(w.start)), e = atDay(t, 0, mins(w.end));
+      if (s <= t && t < e) return { start: s, end: e };
+    }
+    return null;
+  }
+  function nextWindow(h, t) {
+    let best = null;
+    const day = new Date(t).getDay();
+    for (let off = 0; off <= 7; off++) {
+      for (const w of h.hours) {
+        if (!w.days.includes((day + off) % 7)) continue;
+        const s = atDay(t, off, mins(w.start));
+        if (s > t && (best === null || s < best)) best = s;
+      }
+    }
+    return best;
+  }
+  function effective(h, t = now()) {
+    if (h.manual && h.manual.until > t) return { state: h.manual.state, until: h.manual.until, source: 'manual' };
+    const w = activeWindow(h, t);
+    if (w) return { state: 'open', until: w.end, source: 'hours' };
+    return { state: 'closed', source: 'none', next: nextWindow(h, t) };
+  }
+  const activeVisitors = (h, t = now()) => h.visitors.filter(v => v.eta + 45 * MIN > t);
+  const snapshot = () => Object.fromEntries(households.map(h => [h.id, effective(h).state]));
+
+  function untilFor(k, t) {
+    if (k === '1h') return t + HOUR;
+    if (k === '2h') return t + 2 * HOUR;
+    if (k === '4h') return t + 4 * HOUR;
+    if (k === 'tonight') { const x = atDay(t, 0, 21 * 60); return x > t ? x : t + HOUR; }
+    const d = new Date(t).getDay();
+    const x = atDay(t, (7 - d) % 7, 20 * 60);
+    return x > t ? x : t + HOUR;
+  }
+
+  // ---- Formatting ----
+  const fmtTime = t => new Date(t).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+  function fmtWhen(t) {
+    const d = new Date(t), n = new Date(now());
+    if (d.toDateString() === n.toDateString()) return fmtTime(t);
+    const tm = new Date(n); tm.setDate(tm.getDate() + 1);
+    if (d.toDateString() === tm.toDateString()) return 'tomorrow ' + fmtTime(t);
+    return DAYS[d.getDay()] + ' ' + fmtTime(t);
+  }
+  function fmtLeft(ms) {
+    if (ms < MIN) return 'ending now';
+    const h = Math.floor(ms / HOUR), m = Math.floor((ms % HOUR) / MIN);
+    if (h >= 24) return Math.floor(h / 24) + 'd ' + (h % 24) + 'h left';
+    return [h ? h + 'h' : '', m ? m + 'm' : ''].filter(Boolean).join(' ') + ' left';
+  }
+  function fmtClock(s) {
+    let [h, m] = s.split(':').map(Number);
+    const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
+    return { txt: m ? `${h}:${String(m).padStart(2, '0')}` : String(h), ap };
+  }
+  function fmtRange(a, b) {
+    const x = fmtClock(a), y = fmtClock(b);
+    return x.ap === y.ap ? `${x.txt}–${y.txt} ${y.ap}` : `${x.txt} ${x.ap}–${y.txt} ${y.ap}`;
+  }
+  function fmtDays(days) {
+    const s = [...days].sort((a, b) => a - b);
+    if (!s.length) return 'No days picked';
+    if (s.length === 7) return 'Every day';
+    if (s.join() === '1,2,3,4,5') return 'Weekdays';
+    if (s.join() === '0,6') return 'Weekends';
+    const runs = []; let st = s[0], pr = s[0];
+    for (let i = 1; i <= s.length; i++) {
+      if (s[i] === pr + 1) { pr = s[i]; continue; }
+      runs.push(st === pr ? DAYS[st] : pr - st === 1 ? `${DAYS[st]}, ${DAYS[pr]}` : `${DAYS[st]}–${DAYS[pr]}`);
+      st = pr = s[i];
+    }
+    return runs.join(', ');
+  }
+  const fmtHours = h => h.hours.filter(w => w.days.length).map(w => `${fmtDays(w.days)} ${fmtRange(w.start, w.end)}`).join(' · ');
+  function joinNames(list) {
+    if (list.length <= 1) return list.join('');
+    return list.slice(0, -1).join(', ') + ' & ' + list[list.length - 1];
+  }
+
+  // ---- Toasts + notifications ----
+  function toast(msg) {
+    const el = document.createElement('div');
+    el.className = 'toast'; el.textContent = msg;
+    $('#toasts').appendChild(el);
+    setTimeout(() => el.remove(), 4200);
+  }
+  function log(msg) { feed.unshift({ t: now(), msg }); feed = feed.slice(0, 20); }
+
+  function notifyCheck() {
+    const cur = snapshot();
+    for (const h of households) {
+      if (h.id === currentId || !watched.has(h.id)) continue;
+      if (prevStates[h.id] === 'closed' && cur[h.id] !== 'closed') {
+        const msg = `🔔 ${h.name} turned their porch light on`;
+        toast(msg); log(msg);
+      }
+    }
+    prevStates = cur;
+  }
+
+  // ---- Rendering ----
+  function cardHTML(h, { preview = false } = {}) {
+    const t = now(), e = effective(h, t), isMe = h.id === currentId;
+    let timing;
+    if (e.state !== 'closed') {
+      timing = `until ${fmtWhen(e.until)} · ${fmtLeft(e.until - t)}${e.source === 'hours' ? ' · porch hours' : ''}`;
+    } else if (e.source === 'manual') {
+      timing = `until ${fmtWhen(e.until)}`;
+    } else {
+      timing = e.next ? `next porch hours ${fmtWhen(e.next)}` : 'no porch hours set';
+    }
+    const note = e.source === 'manual' ? h.note : e.source === 'hours' ? h.hoursNote : '';
+    const visitors = activeVisitors(h, t);
+    const others = visitors.filter(v => v.from !== currentId);
+    const mine = visitors.find(v => v.from === currentId);
+    const hoursTxt = fmtHours(h);
+
+    let visitorsHTML = '';
+    if (others.length) {
+      const names = others.map(v => (byId(v.from) || {}).name || 'A friend');
+      visitorsHTML = `<div class="visitors"><div class="stack">${others.map(v => `<span aria-hidden="true">${(byId(v.from) || {}).emoji || '🙂'}</span>`).join('')}</div>
+        <span>${esc(joinNames(names))} ${others.length > 1 ? 'are' : 'is'} headed over</span></div>`;
+    }
+
+    let actions = '';
+    if (!preview && isMe) {
+      actions = `<div class="actions"><button class="btn ink" data-act="tab" data-tab="mine">Update my porch light</button></div>`;
+    } else if (!preview && e.state === 'open') {
+      if (mine) {
+        actions = `<div class="headed"><span>👋 You're headed over · there ~${fmtTime(mine.eta)}</span><button class="btn ghost" data-act="omw-cancel" data-id="${h.id}">Cancel</button></div>`;
+      } else if (omwOpen === h.id) {
+        actions = `<div class="eta"><p>When will you get there?</p><div class="chips">${ETAS.map(x => `<button class="chip" data-act="omw-eta" data-id="${h.id}" data-m="${x.m}">${x.label}</button>`).join('')}<button class="btn ghost" data-act="omw-close">Never mind</button></div></div>`;
+      } else {
+        actions = `<div class="actions"><button class="btn pop" data-act="omw" data-id="${h.id}">On my way 👋</button></div>`;
+      }
+    } else if (!preview && e.state === 'text') {
+      actions = asked.has(h.id)
+        ? `<div class="headed"><span>💬 Asked! Watch your texts.</span></div>`
+        : `<div class="actions"><button class="btn" data-act="ask" data-id="${h.id}">Ask to swing by 💬</button></div>`;
+    }
+
+    const bell = (!preview && !isMe)
+      ? `<button class="btn bell" data-act="bell" data-id="${h.id}" aria-pressed="${watched.has(h.id)}" aria-label="${watched.has(h.id) ? 'Stop notifying me about' : 'Notify me when this house opens:'} ${esc(h.name)}" title="${watched.has(h.id) ? 'Notifying you' : 'Notify me when they open'}">${watched.has(h.id) ? '🔔' : '🔕'}</button>`
+      : '';
+
+    return `<article class="card ${e.state}">
+      ${bell}
+      <div class="card-top">
+        <div class="av" aria-hidden="true">${esc(h.emoji)}<span class="lamp ${e.state}"></span></div>
+        <div class="names"><h3>${esc(h.name)}${isMe ? '<span class="you-tag">YOU</span>' : ''}</h3><p>${esc(h.members)}</p></div>
+      </div>
+      <div class="status"><span class="pill ${e.state}">${STATES[e.state].label}</span><span class="tabular">${esc(timing)}</span></div>
+      ${note ? `<p class="note">${esc(note)}</p>` : ''}
+      ${(e.state !== 'closed' && h.where) || hoursTxt ? `<div class="meta">
+        ${e.state !== 'closed' && h.where ? `<span>📍 <b>${esc(h.where)}</b></span>` : ''}
+        ${hoursTxt ? `<span>🕯️ Porch hours: ${esc(hoursTxt)}</span>` : ''}
+      </div>` : ''}
+      ${visitorsHTML}
+      ${actions}
+    </article>`;
+  }
+
+  const RANK = { open: 0, text: 1, closed: 2 };
+  function renderBoard() {
+    const t = now();
+    const others = households.filter(h => h.id !== currentId)
+      .map(h => ({ h, e: effective(h, t) }))
+      .sort((a, b) => RANK[a.e.state] - RANK[b.e.state] || (a.e.until || a.e.next || Infinity) - (b.e.until || b.e.next || Infinity));
+    const lit = others.filter(x => x.e.state === 'open').length;
+    const textFirst = others.filter(x => x.e.state === 'text').length;
+    const day = new Date(t).toLocaleDateString([], { weekday: 'long' });
+    const hr = new Date(t).getHours();
+    const part = hr < 12 ? 'morning' : hr < 17 ? 'afternoon' : 'evening';
+    const headline = lit === 0 ? 'All quiet on the street' : lit === 1 ? '1 porch light is on' : `${lit} porch lights are on`;
+    const awake = others.filter(x => x.e.state !== 'closed');
+    const asleep = others.filter(x => x.e.state === 'closed');
+    return `
+      <div class="hello">
+        <h2>${headline}</h2>
+        <p>${day} ${part}${textFirst ? ` · ${textFirst} more ${textFirst === 1 ? 'is' : 'are'} home if you text first` : ''}</p>
+      </div>
+      <div class="list">
+        ${cardHTML(me())}
+        ${awake.length ? `<p class="group-label">Open now</p>${awake.map(x => cardHTML(x.h)).join('')}` : ''}
+        ${asleep.length ? `<p class="group-label">Lights off</p>${asleep.map(x => cardHTML(x.h)).join('')}` : ''}
+      </div>`;
+  }
+
+  function freshDraft() {
+    const h = me();
+    const e = h.manual && h.manual.until > now() ? h.manual.state : 'open';
+    return { state: e, dur: '2h', note: h.note, where: h.where };
+  }
+  function previewHousehold() {
+    const h = me();
+    return { ...h, manual: { state: draft.state, until: untilFor(draft.dur, now()) }, note: draft.note, where: draft.where };
+  }
+
+  function renderMine() {
+    const h = me(), e = effective(h), t = now();
+    const visitors = activeVisitors(h, t);
+    const until = untilFor(draft.dur, t);
+    return `
+      <div class="hello">
+        <h2>${e.state === 'open' ? 'Your porch light is on' : e.state === 'text' ? "You're home, text first" : 'Your porch light is off'}</h2>
+        <p>${e.state === 'closed' ? (e.next ? `Porch hours start ${fmtWhen(e.next)}` : 'Set a status or add porch hours below') : `Until ${fmtWhen(e.until)}${e.source === 'hours' ? ' (porch hours)' : ''}`}</p>
+      </div>
+
+      <div class="sec">
+        <h2>Headed your way</h2>
+        ${visitors.length ? visitors.map(v => { const f = byId(v.from) || { name: 'A friend', emoji: '🙂' }; return `<div class="vrow"><div class="av" aria-hidden="true">${esc(f.emoji)}</div><span><b>${esc(f.name)}</b> · there ~${fmtTime(v.eta)}</span></div>`; }).join('')
+          : `<p class="empty">No one yet. When a friend taps "On my way," they'll show up here.</p>`}
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="sec">
+        <h2>Set your porch light</h2>
+        <div class="opts">
+          ${Object.entries(STATES).map(([k, s]) => `<button class="opt" data-act="state" data-state="${k}" aria-pressed="${draft.state === k}"><span class="lamp ${k}" aria-hidden="true"></span><span><strong>${s.label}</strong><span class="sub">${s.sub}</span></span></button>`).join('')}
+        </div>
+      </div>
+
+      <div class="sec">
+        <h2>For how long?</h2>
+        <div class="chips">${DURATIONS.map(d => `<button class="chip" data-act="dur" data-dur="${d.k}" aria-pressed="${draft.dur === d.k}">${d.label}</button>`).join('')}</div>
+        <p class="hint tabular" id="untilHint">${draft.state === 'closed' ? 'Lights stay off' : 'Turns off on its own'} at ${fmtWhen(until)}. After that, your porch hours take over.</p>
+      </div>
+
+      <div class="sec">
+        <h2>What's going on?</h2>
+        <div class="field">
+          <textarea class="input" id="note" maxlength="140" placeholder="We made ice cream. Come get a scoop!">${esc(draft.note)}</textarea>
+          <span class="counter tabular" id="noteCount">${draft.note.length}/140</span>
+        </div>
+        <div class="chips">${IDEAS.map((x, i) => `<button class="chip" data-act="idea" data-i="${i}">${esc(x)}</button>`).join('')}</div>
+      </div>
+
+      <div class="sec">
+        <div class="field"><label for="where">Where to find you</label>
+          <input class="input" id="where" value="${esc(draft.where)}" placeholder="Backyard, side gate"></div>
+      </div>
+
+      <div class="preview-wrap">
+        <span class="sec-h">What friends will see</span>
+        <div id="preview">${cardHTML(previewHousehold(), { preview: true })}</div>
+      </div>
+
+      <div class="sec">
+        <button class="btn pop block" data-act="share">${draft.state === 'closed' ? 'Turn porch light off' : 'Share with the street'}</button>
+        ${h.manual && h.manual.until > t ? `<button class="btn ghost" data-act="clear">Clear status and go back to porch hours</button>` : ''}
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="sec">
+        <h2>Porch hours</h2>
+        <p class="hint">Regular times anyone can drop by, even unannounced. Your porch light turns on by itself during these.</p>
+        ${h.hours.map(w => `<div class="hrow">
+          <div class="hrow-top"><span>${esc(fmtDays(w.days))}</span><button class="btn ghost" data-act="hours-del" data-w="${w.id}" aria-label="Remove these porch hours">Remove</button></div>
+          <div class="days">${DAY_INITIAL.map((d, i) => `<button class="day" data-act="hours-day" data-w="${w.id}" data-d="${i}" aria-pressed="${w.days.includes(i)}" aria-label="${DAYS[i]}">${d}</button>`).join('')}</div>
+          <div class="times"><input type="time" id="hs-${w.id}" data-hours="start" data-w="${w.id}" value="${w.start}" aria-label="Start time"> to <input type="time" id="he-${w.id}" data-hours="end" data-w="${w.id}" value="${w.end}" aria-label="End time"></div>
+        </div>`).join('')}
+        <button class="btn" data-act="hours-add">+ Add porch hours</button>
+        <div class="field"><label for="hoursNote">Note during porch hours</label>
+          <input class="input" id="hoursNote" value="${esc(h.hoursNote)}" placeholder="Usually out front with coffee"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="sec">
+        <h2>Your household</h2>
+        <div class="field"><label for="hname">Name</label><input class="input" id="hname" value="${esc(h.name)}"></div>
+        <div class="field"><label for="hmembers">Who lives here</label><input class="input" id="hmembers" value="${esc(h.members)}"></div>
+      </div>`;
+  }
+
+  function renderAlerts() {
+    const list = households.filter(h => h.id !== currentId);
+    return `
+      <div class="hello">
+        <h2>Tell me when…</h2>
+        <p>Get a ping when a house turns its porch light on. Later this could work for groups like "close neighbors" or "best friends."</p>
+      </div>
+      <div class="list">
+        ${list.map(h => `<div class="srow">
+          <div class="av" aria-hidden="true">${esc(h.emoji)}<span class="lamp ${effective(h).state}"></span></div>
+          <div class="names"><h3>${esc(h.name)}</h3><p>${watched.has(h.id) ? 'Notifying you' : 'Off'}</p></div>
+          <button class="switch" role="switch" aria-checked="${watched.has(h.id)}" data-act="bell" data-id="${h.id}" aria-label="Notify me about ${esc(h.name)}"></button>
+        </div>`).join('')}
+      </div>
+      <div class="sec">
+        <h2>Recent</h2>
+        ${feed.length ? `<ul class="feed">${feed.map(f => `<li><time>${fmtWhen(f.t)}</time><span>${esc(f.msg)}</span></li>`).join('')}</ul>`
+          : `<p class="empty">Nothing yet. Try "Simulate: a friend opens up" or move the clock forward to Monday morning, when Bea's porch hours start.</p>`}
+      </div>`;
+  }
+
+  function renderTabs() {
+    const t = now();
+    const lit = households.filter(h => h.id !== currentId && effective(h, t).state === 'open').length;
+    const tabs = [['board', `Who's open${lit ? `<span class="count">${lit}</span>` : ''}`], ['mine', 'My house'], ['alerts', 'Alerts']];
+    $('#tabs').innerHTML = tabs.map(([k, l]) => `<button role="tab" aria-selected="${tab === k}" data-act="tab" data-tab="${k}">${l}</button>`).join('');
+  }
+  function renderWho() {
+    $('#whoami').innerHTML = households.map(h => `<option value="${h.id}" ${h.id === currentId ? 'selected' : ''}>${esc(h.emoji)} ${esc(h.name)}</option>`).join('');
+  }
+  function renderClock() {
+    const t = now();
+    $('#clock').innerHTML = `${DAYS[new Date(t).getDay()]} ${fmtTime(t)}<small>Demo clock, ticking in real time</small>`;
+  }
+  function render() {
+    renderWho(); renderTabs(); renderClock();
+    $('#view').innerHTML = `<div class="app">${tab === 'board' ? renderBoard() : tab === 'mine' ? renderMine() : renderAlerts()}</div>`;
+  }
+  function refreshPreview() {
+    const p = $('#preview'); if (p) p.innerHTML = cardHTML(previewHousehold(), { preview: true });
+    const c = $('#noteCount'); if (c) c.textContent = `${draft.note.length}/140`;
+  }
+
+  // ---- Simulations ----
+  let arrivalTimer = null;
+  function simulateArrival() {
+    clearTimeout(arrivalTimer);
+    arrivalTimer = setTimeout(() => {
+      const h = me();
+      if (effective(h).state === 'closed') return;
+      const candidates = households.filter(x => x.id !== currentId && !h.visitors.some(v => v.from === x.id && v.eta + 45 * MIN > now()));
+      if (!candidates.length) return;
+      const f = candidates[Math.floor(Math.random() * candidates.length)];
+      h.visitors.push({ from: f.id, eta: now() + 15 * MIN });
+      const msg = `👋 ${f.name} ${f.name.includes('&') || f.name.startsWith('The') ? 'are' : 'is'} on the way, there in ~15 min`;
+      toast(msg); log(msg); render();
+    }, 3500);
+  }
+  function simulateOpen() {
+    const t = now();
+    const closed = households.filter(h => h.id !== currentId && effective(h, t).state === 'closed');
+    if (!closed.length) { toast('Every porch light is already on'); return; }
+    const h = closed[Math.floor(Math.random() * closed.length)];
+    h.manual = { state: 'open', until: t + 2 * HOUR };
+    h.note = SURPRISES[Math.floor(Math.random() * SURPRISES.length)];
+    if (!watched.has(h.id)) toast(`${h.name} turned their light on. Tap the bell on their card to get pinged next time.`);
+    notifyCheck(); render();
+  }
+
+  // ---- Events ----
+  document.addEventListener('click', ev => {
+    const b = ev.target.closest('[data-act]'); if (!b) return;
+    const act = b.dataset.act, id = b.dataset.id;
+    const h = id && byId(id);
+    switch (act) {
+      case 'tab': tab = b.dataset.tab; if (tab === 'mine') draft = freshDraft(); omwOpen = null; window.scrollTo({ top: 0 }); break;
+      case 'bell':
+        if (watched.has(id)) watched.delete(id); else watched.add(id);
+        toast(watched.has(id) ? `🔔 We'll tell you when ${h.name} turn their light on` : `🔕 No more pings for ${h.name}`);
+        break;
+      case 'omw': omwOpen = id; break;
+      case 'omw-close': omwOpen = null; break;
+      case 'omw-eta': {
+        const eta = now() + Number(b.dataset.m) * MIN;
+        h.visitors = h.visitors.filter(v => v.from !== currentId);
+        h.visitors.push({ from: currentId, eta });
+        omwOpen = null;
+        toast(`👋 Told ${h.name} you'll be there ~${fmtTime(eta)}`);
+        break;
+      }
+      case 'omw-cancel': h.visitors = h.visitors.filter(v => v.from !== currentId); toast(`Let ${h.name} know you're not coming after all`); break;
+      case 'ask':
+        asked.add(id);
+        toast(`💬 Sent ${h.name} a "can I swing by?"`);
+        setTimeout(() => toast(`💬 ${h.name}: "Yes! Come over, we're out back"`), 3200);
+        break;
+      case 'state': draft.state = b.dataset.state; break;
+      case 'dur': draft.dur = b.dataset.dur; break;
+      case 'idea': draft.note = IDEAS[Number(b.dataset.i)]; break;
+      case 'share': {
+        const m = me();
+        m.manual = { state: draft.state, until: untilFor(draft.dur, now()) };
+        m.note = draft.note.trim(); m.where = draft.where.trim();
+        toast(draft.state === 'closed' ? `Lights off until ${fmtWhen(m.manual.until)}` : `✨ Shared! Your status turns off at ${fmtWhen(m.manual.until)}`);
+        if (draft.state !== 'closed') simulateArrival();
+        prevStates = snapshot();
+        break;
+      }
+      case 'clear': me().manual = null; draft = freshDraft(); toast('Back to porch hours'); prevStates = snapshot(); break;
+      case 'hours-day': {
+        const w = me().hours.find(x => x.id === Number(b.dataset.w)), d = Number(b.dataset.d);
+        w.days = w.days.includes(d) ? w.days.filter(x => x !== d) : [...w.days, d];
+        prevStates = snapshot();
+        break;
+      }
+      case 'hours-add': me().hours.push({ id: uid++, days: [6], start: '15:00', end: '17:00' }); break;
+      case 'hours-del': me().hours = me().hours.filter(x => x.id !== Number(b.dataset.w)); prevStates = snapshot(); break;
+      case 'clock': offset += Number(b.dataset.mins) * MIN; notifyCheck(); break;
+      case 'clock-morning': { const t = now(); offset += atDay(t, 1, 9 * 60) - t; notifyCheck(); break; }
+      case 'sim-open': simulateOpen(); return;
+      case 'reset': seed(); toast('Demo reset'); break;
+      default: return;
+    }
+    render();
+  });
+
+  document.addEventListener('input', ev => {
+    const el = ev.target;
+    if (el.id === 'note') { draft.note = el.value; refreshPreview(); }
+    else if (el.id === 'where') { draft.where = el.value; refreshPreview(); }
+    else if (el.id === 'hoursNote') { me().hoursNote = el.value; }
+    else if (el.id === 'hname') { me().name = el.value; refreshPreview(); renderWho(); }
+    else if (el.id === 'hmembers') { me().members = el.value; refreshPreview(); }
+  });
+  document.addEventListener('change', ev => {
+    const el = ev.target;
+    if (el.id === 'whoami') { currentId = el.value; draft = freshDraft(); omwOpen = null; prevStates = snapshot(); render(); toast(`You're now ${me().name}. High trust mode!`); return; }
+    if (el.dataset.hours && el.value) {
+      const w = me().hours.find(x => x.id === Number(el.dataset.w));
+      w[el.dataset.hours] = el.value;
+      prevStates = snapshot(); render();
+    }
+  });
+
+  // Keep times fresh without interrupting typing
+  setInterval(() => {
+    notifyCheck();
+    renderClock();
+    const a = document.activeElement;
+    if (!a || !a.matches('input, textarea, select')) render();
+  }, 20000);
+
+  seed();
+  render();
+})();
+</script>
