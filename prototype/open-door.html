@@ -18,6 +18,7 @@
   --note: #fff6d3;
   --pop: #d93a7a;
   --pop-ink: #ffffff;
+  --mine-ring: rgba(217, 58, 122, .12);
   --open: #12865a;
   --open-bg: #daf3e7;
   --text: #a85f00;
@@ -33,7 +34,7 @@
   :root:not([data-theme="light"]) {
     --bg: #14122a; --surface: #1f1c3b; --surface-2: #19173a; --ink: #f1efff; --muted: #a7a3c8; --line: #34305a;
     --glow: #ffcf4d; --glow-soft: rgba(255, 207, 77, .20); --glow-line: rgba(255, 207, 77, .40); --note: #2c2846;
-    --pop: #ff6ba5; --pop-ink: #22081a; --open: #4fd69b; --open-bg: rgba(79, 214, 155, .14);
+    --pop: #ff6ba5; --pop-ink: #22081a; --mine-ring: rgba(255, 107, 165, .16); --open: #4fd69b; --open-bg: rgba(79, 214, 155, .14);
     --text: #ffbe55; --text-bg: rgba(255, 190, 85, .14); --off: #8f8bb0; --off-bg: rgba(143, 139, 176, .14);
     --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 28px rgba(0, 0, 0, .28);
     color-scheme: dark;
@@ -42,7 +43,7 @@
 :root[data-theme="dark"] {
   --bg: #14122a; --surface: #1f1c3b; --surface-2: #19173a; --ink: #f1efff; --muted: #a7a3c8; --line: #34305a;
   --glow: #ffcf4d; --glow-soft: rgba(255, 207, 77, .20); --glow-line: rgba(255, 207, 77, .40); --note: #2c2846;
-  --pop: #ff6ba5; --pop-ink: #22081a; --open: #4fd69b; --open-bg: rgba(79, 214, 155, .14);
+  --pop: #ff6ba5; --pop-ink: #22081a; --mine-ring: rgba(255, 107, 165, .16); --open: #4fd69b; --open-bg: rgba(79, 214, 155, .14);
   --text: #ffbe55; --text-bg: rgba(255, 190, 85, .14); --off: #8f8bb0; --off-bg: rgba(143, 139, 176, .14);
   --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 10px 28px rgba(0, 0, 0, .28);
   color-scheme: dark;
@@ -132,6 +133,8 @@ button { cursor: pointer; }
 .bell { position: absolute; top: 14px; right: 14px; width: 38px; height: 38px; padding: 0; border-radius: 50%; font-size: 17px; }
 .bell[aria-pressed="true"] { background: var(--glow); border-color: transparent; }
 .card .card-top { padding-right: 44px; }
+.card.mine { border: 2px solid var(--pop); box-shadow: 0 0 0 5px var(--mine-ring), var(--shadow); }
+.card.mine .you-tag { background: var(--pop); color: var(--pop-ink); }
 .chip { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 7px 12px; font-size: 14px; font-weight: 500; }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .chips { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -153,7 +156,21 @@ button { cursor: pointer; }
 .input, textarea.input { width: 100%; border: 1px solid var(--line); background: var(--surface); border-radius: 14px; padding: 11px 13px; font-size: 15px; }
 textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f-hand); }
 .counter { justify-self: end; font-size: 12px; color: var(--muted); }
-.preview-wrap { display: grid; gap: 8px; padding: 14px; border-radius: 24px; border: 1.5px dashed var(--line); }
+.preview-wrap { display: grid; gap: 10px; padding: 12px 14px; border-radius: 18px; border: 1.5px dashed var(--line); }
+.preview-wrap summary { cursor: pointer; font-weight: 600; font-size: 14px; color: var(--muted); }
+.preview-wrap[open] summary { margin-bottom: 10px; }
+.form { display: grid; gap: 22px; padding: 18px; border-radius: 26px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.form .opt, .form .chip, .form .input { background: var(--surface-2); }
+.form .opt[aria-pressed="true"] { background: var(--surface); }
+.form .chip[aria-pressed="true"] { background: var(--ink); }
+.form-head { display: grid; gap: 4px; }
+.form-title { margin: 0; font: 800 24px/1.1 var(--f-display); letter-spacing: -.02em; }
+.savebar { position: sticky; bottom: calc(env(safe-area-inset-bottom, 0px) + 12px); z-index: 4; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 10px 10px 18px; border-radius: 22px; background: var(--ink); color: var(--bg); box-shadow: var(--shadow); }
+.savebar-txt { display: grid; min-width: 0; font-size: 12px; }
+.savebar-txt strong { font-size: 15px; }
+.savebar-txt span { opacity: .75; }
+.savebar .btn:disabled { opacity: 1; background: transparent; color: var(--bg); border-color: transparent; }
+.settings-label { margin: 10px 0 -6px; font-size: 12px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
 .divider { height: 1px; background: var(--line); margin: 6px 0; }
 .hrow { display: grid; gap: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); }
 .hrow-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; }
@@ -188,11 +205,11 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
 .clock small { display: block; margin-top: 4px; font: 500 12px var(--f-body); color: var(--muted); letter-spacing: 0; }
 .panel .chips .chip { font-size: 13px; padding: 6px 11px; }
 
-.toasts { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; display: grid; justify-items: center; gap: 8px; pointer-events: none;
-  padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+.toasts { position: fixed; left: 0; right: 0; top: 0; z-index: 20; display: grid; justify-items: center; gap: 8px; pointer-events: none;
+  padding-top: calc(12px + env(safe-area-inset-top, 0px));
   padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
 .toast { max-width: 440px; padding: 12px 16px; border-radius: 16px; background: var(--ink); color: var(--bg); font-weight: 600; font-size: 14px; box-shadow: var(--shadow); animation: up .25s ease-out; }
-@keyframes up { from { transform: translateY(10px); opacity: 0; } }
+@keyframes up { from { transform: translateY(-10px); opacity: 0; } }
 </style>
 
 <div class="shell">
@@ -284,6 +301,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
 
   // ---- State ----
   let households, currentId, watched, feed, prevStates, draft, omwOpen, asked, tab;
+  let previewOpen = false;
   let uid = 1;
 
   function seed() {
@@ -291,14 +309,14 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     const n = base;
     households = [
       { id: 'me', name: 'Our house', members: 'You + the new baby', emoji: '🏡',
-        manual: { state: 'open', until: n + 3 * HOUR },
+        manual: { state: 'open', until: n + 3 * HOUR }, dur: '4h',
         note: "Open for newborn visits! We're in the backyard, come say hi 👶",
         where: 'Backyard, come through the side gate',
         hoursNote: 'Open hours! Baby naps permitting, knock gently.',
         hours: [{ id: uid++, days: [1, 2, 3, 4, 5], start: '16:00', end: '18:00' }, { id: uid++, days: [0, 6], start: '10:00', end: '12:00' }],
         visitors: [] },
       { id: 'okafor', name: 'The Okafors', members: 'Ada, Tunde + 3 kids', emoji: '🛝',
-        manual: { state: 'open', until: n + 2 * HOUR },
+        manual: { state: 'open', until: n + 2 * HOUR }, dur: '2h',
         note: "Kids are on the trampoline and the coffee's hot ☕ Bring your littles!",
         where: 'Front porch', hoursNote: '', hours: [],
         visitors: [{ from: 'priya', eta: n + 12 * MIN }] },
@@ -308,7 +326,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
         hoursNote: "Saturday afternoons we're in the garage making noise. Wander in, grab a tambourine.",
         hours: [{ id: uid++, days: [6], start: '13:00', end: '17:00' }], visitors: [] },
       { id: 'priya', name: 'Priya & Sam', members: '2 adults, 1 very old cat', emoji: '🪴',
-        manual: { state: 'text', until: n + 4 * HOUR },
+        manual: { state: 'text', until: n + 4 * HOUR }, dur: '4h',
         note: 'Home doing garden stuff. Text first, we might be covered in dirt 🌱',
         where: 'Back garden', hoursNote: 'Sunday open hours: there is usually a pot of soup going.',
         hours: [{ id: uid++, days: [0], start: '16:00', end: '19:00' }], visitors: [] },
@@ -317,7 +335,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
         hoursNote: 'Morning tea most weekdays. Biscuit will greet you.',
         hours: [{ id: uid++, days: [1, 2, 3, 4, 5], start: '09:00', end: '11:00' }], visitors: [] },
       { id: 'delgado', name: 'The Delgados', members: 'Luis, Marisol + Abuela', emoji: '🌮',
-        manual: { state: 'closed', until: atDay(n, 1, 20 * 60) },
+        manual: { state: 'closed', until: atDay(n, 1, 20 * 60) }, dur: 'weekend',
         note: "Away at Grandma's. Back Sunday night!", where: 'Side patio',
         hoursNote: 'Taco Friday! Door is open, bring a drink.',
         hours: [{ id: uid++, days: [5], start: '17:00', end: '20:00' }], visitors: [] },
@@ -486,7 +504,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
       ? `<button class="btn bell" data-act="bell" data-id="${h.id}" aria-pressed="${watched.has(h.id)}" aria-label="${watched.has(h.id) ? 'Stop notifying me about' : 'Notify me when this house opens:'} ${esc(h.name)}" title="${watched.has(h.id) ? 'Notifying you' : 'Notify me when they open'}">${watched.has(h.id) ? '🔔' : '🔕'}</button>`
       : '';
 
-    return `<article class="card ${e.state}">
+    return `<article class="card ${e.state}${isMe && !preview ? ' mine' : ''}">
       ${bell}
       <div class="card-top">
         <div class="av" aria-hidden="true">${esc(h.emoji)}<span class="lamp ${e.state}"></span></div>
@@ -523,6 +541,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
         <p>${day} ${part}${textFirst ? ` · ${textFirst} more ${textFirst === 1 ? 'is' : 'are'} home if you text first` : ''}</p>
       </div>
       <div class="list">
+        <p class="group-label">Your house</p>
         ${cardHTML(me())}
         ${awake.length ? `<p class="group-label">Open now</p>${awake.map(x => cardHTML(x.h)).join('')}` : ''}
         ${asleep.length ? `<p class="group-label">Door closed</p>${asleep.map(x => cardHTML(x.h)).join('')}` : ''}
@@ -532,11 +551,21 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
   function freshDraft() {
     const h = me();
     const e = h.manual && h.manual.until > now() ? h.manual.state : 'open';
-    return { state: e, dur: '2h', note: h.note, where: h.where };
+    return { state: e, dur: h.dur || '2h', note: h.note, where: h.where };
   }
   function previewHousehold() {
     const h = me();
     return { ...h, manual: { state: draft.state, until: untilFor(draft.dur, now()) }, note: draft.note, where: draft.where };
+  }
+
+  const draftLive = h => !!(h.manual && h.manual.until > now() && h.manual.state === draft.state && h.dur === draft.dur && h.note === draft.note.trim() && h.where === draft.where.trim());
+  function saveBarHTML() {
+    const h = me(), live = draftLive(h);
+    const until = live ? h.manual.until : untilFor(draft.dur, now());
+    const summary = `${STATES[draft.state].label} until ${fmtWhen(until)}`;
+    const label = draft.state === 'closed' ? 'Save & close door' : 'Save & share update';
+    return `<div class="savebar-txt"><strong class="tabular">${esc(summary)}</strong><span>${live ? '✓ Saved. Friends can see this.' : 'Not saved yet'}</span></div>
+      <button class="btn pop" data-act="share" ${live ? 'disabled' : ''}>${live ? 'Saved' : label}</button>`;
   }
 
   function renderMine() {
@@ -549,52 +578,52 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
         <p>${e.state === 'closed' ? (e.next ? `Open hours start ${fmtWhen(e.next)}` : 'Set a status or add open hours below') : `Until ${fmtWhen(e.until)}${e.source === 'hours' ? ' (open hours)' : ''}`}</p>
       </div>
 
-      <div class="sec">
+      ${visitors.length ? `<div class="sec">
         <h2>Headed your way</h2>
-        ${visitors.length ? visitors.map(v => { const f = byId(v.from) || { name: 'A friend', emoji: '🙂' }; return `<div class="vrow"><div class="av" aria-hidden="true">${esc(f.emoji)}</div><span><b>${esc(f.name)}</b> · there ~${fmtTime(v.eta)}</span></div>`; }).join('')
-          : `<p class="empty">No one yet. When a friend taps "On my way," they'll show up here.</p>`}
-      </div>
+        ${visitors.map(v => { const f = byId(v.from) || { name: 'A friend', emoji: '🙂' }; return `<div class="vrow"><div class="av" aria-hidden="true">${esc(f.emoji)}</div><span><b>${esc(f.name)}</b> · there ~${fmtTime(v.eta)}</span></div>`; }).join('')}
+      </div>` : ''}
 
-      <div class="divider"></div>
-
-      <div class="sec">
-        <h2>Set your door</h2>
-        <div class="opts">
-          ${Object.entries(STATES).map(([k, s]) => `<button class="opt" data-act="state" data-state="${k}" aria-pressed="${draft.state === k}"><span class="lamp ${k}" aria-hidden="true"></span><span><strong>${s.label}</strong><span class="sub">${s.sub}</span></span></button>`).join('')}
+      <div class="form">
+        <div class="form-head">
+          <h2 class="form-title">Update your status</h2>
+          <p class="hint">Pick your status, add a note, then tap save. It ends on its own.</p>
         </div>
-      </div>
 
-      <div class="sec">
-        <h2>For how long?</h2>
-        <div class="chips">${DURATIONS.map(d => `<button class="chip" data-act="dur" data-dur="${d.k}" aria-pressed="${draft.dur === d.k}">${d.label}</button>`).join('')}</div>
-        <p class="hint tabular" id="untilHint">${draft.state === 'closed' ? 'Stays closed until' : 'Closes on its own at'} ${fmtWhen(until)}. After that, your open hours take over.</p>
-      </div>
-
-      <div class="sec">
-        <h2>What's going on?</h2>
-        <div class="field">
-          <textarea class="input" id="note" maxlength="140" placeholder="We made ice cream. Come get a scoop!">${esc(draft.note)}</textarea>
-          <span class="counter tabular" id="noteCount">${draft.note.length}/140</span>
+        <div class="sec">
+          <h2>Is your door open?</h2>
+          <div class="opts">
+            ${Object.entries(STATES).map(([k, s]) => `<button class="opt" data-act="state" data-state="${k}" aria-pressed="${draft.state === k}"><span class="lamp ${k}" aria-hidden="true"></span><span><strong>${s.label}</strong><span class="sub">${s.sub}</span></span></button>`).join('')}
+          </div>
         </div>
-        <div class="chips">${IDEAS.map((x, i) => `<button class="chip" data-act="idea" data-i="${i}">${esc(x)}</button>`).join('')}</div>
-      </div>
 
-      <div class="sec">
+        <div class="sec">
+          <h2>For how long?</h2>
+          <div class="chips">${DURATIONS.map(d => `<button class="chip" data-act="dur" data-dur="${d.k}" aria-pressed="${draft.dur === d.k}">${d.label}</button>`).join('')}</div>
+          <p class="hint tabular">${draft.state === 'closed' ? 'Stays closed until' : 'Closes on its own at'} ${fmtWhen(until)}. After that, your open hours take over.</p>
+        </div>
+
+        <div class="sec">
+          <h2>What's going on?</h2>
+          <div class="field">
+            <textarea class="input" id="note" maxlength="140" placeholder="We made ice cream. Come get a scoop!" aria-label="Note for friends">${esc(draft.note)}</textarea>
+            <span class="counter tabular" id="noteCount">${draft.note.length}/140</span>
+          </div>
+          <div class="chips">${IDEAS.map((x, i) => `<button class="chip" data-act="idea" data-i="${i}">${esc(x)}</button>`).join('')}</div>
+        </div>
+
         <div class="field"><label for="where">Where to find you</label>
           <input class="input" id="where" value="${esc(draft.where)}" placeholder="Backyard, side gate"></div>
+
+        <details class="preview-wrap" id="previewBox" ${previewOpen ? 'open' : ''}>
+          <summary>Preview what friends will see</summary>
+          <div id="preview">${cardHTML(previewHousehold(), { preview: true })}</div>
+        </details>
+
+        <div class="savebar" id="savebar">${saveBarHTML()}</div>
+        ${h.manual && h.manual.until > t ? `<button class="btn ghost" data-act="clear">Clear my status and go back to open hours</button>` : ''}
       </div>
 
-      <div class="preview-wrap">
-        <span class="sec-h">What friends will see</span>
-        <div id="preview">${cardHTML(previewHousehold(), { preview: true })}</div>
-      </div>
-
-      <div class="sec">
-        <button class="btn pop block" data-act="share">${draft.state === 'closed' ? 'Close my door' : 'Share with the street'}</button>
-        ${h.manual && h.manual.until > t ? `<button class="btn ghost" data-act="clear">Clear status and go back to open hours</button>` : ''}
-      </div>
-
-      <div class="divider"></div>
+      <p class="settings-label">Settings · these save automatically</p>
 
       <div class="sec">
         <h2>Open hours</h2>
@@ -659,6 +688,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
   function refreshPreview() {
     const p = $('#preview'); if (p) p.innerHTML = cardHTML(previewHousehold(), { preview: true });
     const c = $('#noteCount'); if (c) c.textContent = `${draft.note.length}/140`;
+    const sb = $('#savebar'); if (sb) sb.innerHTML = saveBarHTML();
   }
 
   // ---- Simulations ----
@@ -720,7 +750,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
       case 'share': {
         const m = me();
         m.manual = { state: draft.state, until: untilFor(draft.dur, now()) };
-        m.note = draft.note.trim(); m.where = draft.where.trim();
+        m.note = draft.note.trim(); m.where = draft.where.trim(); m.dur = draft.dur;
         toast(draft.state === 'closed' ? `Door closed until ${fmtWhen(m.manual.until)}` : `✨ Shared! Your status turns off at ${fmtWhen(m.manual.until)}`);
         if (draft.state !== 'closed') simulateArrival();
         prevStates = snapshot();
@@ -752,6 +782,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     else if (el.id === 'hname') { me().name = el.value; refreshPreview(); renderWho(); }
     else if (el.id === 'hmembers') { me().members = el.value; refreshPreview(); }
   });
+  document.addEventListener('toggle', ev => { if (ev.target.id === 'previewBox') previewOpen = ev.target.open; }, true);
   document.addEventListener('change', ev => {
     const el = ev.target;
     if (el.id === 'whoami') { currentId = el.value; draft = freshDraft(); omwOpen = null; prevStates = snapshot(); render(); toast(`You're now ${me().name}. High trust mode!`); return; }
