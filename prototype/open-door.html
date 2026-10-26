@@ -287,7 +287,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
         <ul>
           <li><b>Statuses expire.</b> Every status has an end time and a bar that runs down. Is 2 hours the right default?</li>
           <li><b>Notes expire too.</b> "Made ice cream!" never lingers into Tuesday.</li>
-          <li><b>Two kinds of groups.</b> Moms nearby can pop over in minutes. Old friends live farther away. Does the same app work for both?</li>
+          <li><b>Groups.</b> Anyone can make a group and invite people to it. The sample groups show neighbors who can pop over in minutes and friends who live farther away. Does the same app work for both?</li>
           <li><b>High trust identity.</b> Anyone can pick any house in "You are." A phone-number login comes later.</li>
           <li><b>Text first.</b> Is a middle option useful, or does it bring back the awkward asking?</li>
           <li><b>Notify me.</b> Tap the bell on a house. In the real app these would be push notifications or texts.</li>
@@ -325,8 +325,8 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     { k: 'tonight', label: 'Until 9 PM' }, { k: 'weekend', label: 'All weekend' },
   ];
   const GROUPS = [
-    { id: 'moms', name: 'Moms nearby', emoji: '🏡' },
-    { id: 'old', name: 'Old friends', emoji: '💛' },
+    { id: 'neighbors', name: 'Neighbors', emoji: '🏡' },
+    { id: 'friends', name: 'Friends', emoji: '💛' },
   ];
   const COLORS = [
     { k: 'sun', name: 'Sunflower' }, { k: 'mint', name: 'Mint' }, { k: 'berry', name: 'Berry' },
@@ -376,7 +376,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     const n = base;
     const W = (days, start, end) => ({ id: uid++, days, start, end });
     households = [
-      { id: 'me', name: 'Our house', members: 'You + the new baby', emoji: '🏡', groups: ['moms', 'old'], color: 'berry', pattern: 'scallops',
+      { id: 'me', name: 'Our house', members: 'You + the new baby', emoji: '🏡', groups: ['neighbors', 'friends'], color: 'berry', pattern: 'scallops',
         manual: { state: 'open', since: n - HOUR, until: n + 3 * HOUR }, dur: '4h',
         note: "Open for newborn visits! We're in the backyard, come say hi 👶",
         where: 'Backyard, come through the side gate',
@@ -386,34 +386,34 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
           { from: 'okafor', at: n - 100 * MIN, eta: n - 85 * MIN, emoji: '👶', celebrated: true },
           { from: 'hannah', at: n - 20 * MIN, eta: n + 25 * MIN, emoji: '🍦' },
         ] },
-      { id: 'okafor', name: 'The Okafors', members: 'Ada, Tunde + 3 kids · 2 blocks away', emoji: '🛝', groups: ['moms'], color: 'sun', pattern: 'stripes',
+      { id: 'okafor', name: 'The Okafors', members: 'Ada, Tunde + 3 kids · 2 blocks away', emoji: '🛝', groups: ['neighbors'], color: 'sun', pattern: 'stripes',
         manual: { state: 'open', since: n - 30 * MIN, until: n + 2 * HOUR }, dur: '2h',
         note: "Kids are on the trampoline and the coffee's hot ☕ Bring your littles!",
         where: 'Front porch', hoursNote: '', hours: [],
         visitors: [{ from: 'priya', at: n - 4 * MIN, eta: n + 11 * MIN, emoji: '🌸' }] },
-      { id: 'priya', name: 'Priya & Sam', members: 'and baby Ravi · around the corner', emoji: '🪴', groups: ['moms'], color: 'mint', pattern: 'dots',
+      { id: 'priya', name: 'Priya & Sam', members: 'and baby Ravi · around the corner', emoji: '🪴', groups: ['neighbors'], color: 'mint', pattern: 'dots',
         manual: { state: 'text', since: n - HOUR, until: n + 3 * HOUR }, dur: '4h',
         note: 'Home doing garden stuff. Text first, we might be covered in dirt 🌱',
         where: 'Back garden', hoursNote: 'Sunday open hours: there is usually a pot of soup going.',
         hours: [W([0], '16:00', '19:00')], visitors: [] },
-      { id: 'bea', name: 'Bea next door', members: 'Bea + the twins', emoji: '🐈', groups: ['moms'], color: 'peach', pattern: 'checks',
+      { id: 'bea', name: 'Bea next door', members: 'Bea + the twins', emoji: '🐈', groups: ['neighbors'], color: 'peach', pattern: 'checks',
         manual: null, note: '', where: 'Front stoop',
         hoursNote: 'Morning playdate most weekdays. The cat will greet you.',
         hours: [W([1, 2, 3, 4, 5], '09:00', '11:00')], visitors: [] },
-      { id: 'delgado', name: 'The Delgados', members: 'Marisol, Luis + Abuela · 5 min walk', emoji: '🌮', groups: ['moms'], color: 'sky', pattern: 'plain',
+      { id: 'delgado', name: 'The Delgados', members: 'Marisol, Luis + Abuela · 5 min walk', emoji: '🌮', groups: ['neighbors'], color: 'sky', pattern: 'plain',
         manual: { state: 'closed', since: n - 20 * HOUR, until: atDay(n, 1, 20 * 60) }, dur: 'weekend',
         note: "Away at Grandma's. Back Sunday night!", where: 'Side patio',
         hoursNote: 'Taco Friday! Door is open, bring a drink.',
         hours: [W([5], '17:00', '20:00')], visitors: [] },
-      { id: 'mo', name: 'Mo & Jules', members: 'and Pickle the dog · 25 min drive', emoji: '🎸', groups: ['old'], color: 'lilac', pattern: 'stripes',
+      { id: 'mo', name: 'Mo & Jules', members: 'and Pickle the dog · 25 min drive', emoji: '🎸', groups: ['friends'], color: 'lilac', pattern: 'stripes',
         manual: null, note: '', where: 'Garage, follow the music',
         hoursNote: "Saturday afternoons we're in the garage making noise. Wander in, grab a tambourine.",
         hours: [W([6], '13:00', '17:00')], visitors: [] },
-      { id: 'hannah', name: 'Hannah & Theo', members: '40 min drive', emoji: '🚲', groups: ['old'], color: 'mint', pattern: 'scallops',
+      { id: 'hannah', name: 'Hannah & Theo', members: '40 min drive', emoji: '🚲', groups: ['friends'], color: 'mint', pattern: 'scallops',
         manual: { state: 'open', since: n - 5 * HOUR, until: atDay(n, 1, 20 * 60) }, dur: 'weekend',
         note: "Home all weekend painting the nursery. Come help and we'll feed you 🍕",
         where: 'Front door, just walk in', hoursNote: '', hours: [], visitors: [] },
-      { id: 'park', name: 'The Parks', members: 'Jun, Esther + 2 kids · 1 hr drive', emoji: '🏕️', groups: ['old'], color: 'sun', pattern: 'dots',
+      { id: 'park', name: 'The Parks', members: 'Jun, Esther + 2 kids · 1 hr drive', emoji: '🏕️', groups: ['friends'], color: 'sun', pattern: 'dots',
         manual: null, note: '', where: 'Backyard',
         hoursNote: 'Sunday BBQ. There is always room for one more family.',
         hours: [W([0], '14:00', '18:00')], visitors: [] },
@@ -805,7 +805,8 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
   }
   function renderGroups() {
     const opts = [{ id: 'all', name: 'Everyone', emoji: '✨' }, ...GROUPS];
-    $('#groups').innerHTML = opts.map(g => `<button class="chip" data-act="group" data-g="${g.id}" aria-pressed="${groupFilter === g.id}">${g.emoji} ${esc(g.name)}</button>`).join('');
+    $('#groups').innerHTML = opts.map(g => `<button class="chip" data-act="group" data-g="${g.id}" aria-pressed="${groupFilter === g.id}">${g.emoji} ${esc(g.name)}</button>`).join('')
+      + `<button class="chip" data-act="new-group">+ New group</button>`;
   }
   function renderWho() {
     $('#whoami').innerHTML = households.map(h => `<option value="${h.id}" ${h.id === currentId ? 'selected' : ''}>${esc(h.emoji)} ${esc(h.name)}</option>`).join('');
@@ -859,6 +860,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     switch (act) {
       case 'tab': tab = b.dataset.tab; if (tab === 'mine') draft = freshDraft(); omw = null; window.scrollTo({ top: 0 }); break;
       case 'group': groupFilter = b.dataset.g; omw = null; break;
+      case 'new-group': toast('Coming soon: name a group and share an invite link'); return;
       case 'bell':
         if (watched.has(id)) watched.delete(id); else watched.add(id);
         toast(watched.has(id) ? `🔔 We'll tell you when ${h.name} ${verb(h.name, 'opens', 'open')} up` : `🔕 No more pings for ${h.name}`);
