@@ -106,8 +106,7 @@ button { cursor: pointer; }
 .lamp.open { background: var(--glow); box-shadow: 0 0 0 4px var(--glow-soft), 0 0 16px 5px var(--glow-soft); animation: glow 3.2s ease-in-out infinite; }
 .lamp.text { background: linear-gradient(90deg, var(--text) 50%, var(--surface) 50%); box-shadow: inset 0 0 0 2px var(--text), 0 0 0 3px var(--text-bg); }
 @keyframes glow { 50% { box-shadow: 0 0 0 5px var(--glow-soft), 0 0 26px 9px var(--glow-soft); } }
-@media (prefers-reduced-motion: reduce) { .lamp.open { animation: none; } .toast { animation: none !important; } .walker { transition: none !important; } }
-
+@media (prefers-reduced-motion: reduce) { .lamp.open { animation: none; } .toast { animation: none !important; } }
 /* Board */
 .hello { display: grid; gap: 4px; }
 .hello h2 { margin: 0; font: 800 34px/1.02 var(--f-display); letter-spacing: -.025em; text-wrap: balance; }
@@ -140,51 +139,34 @@ button { cursor: pointer; }
 .bell { position: absolute; top: 10px; right: 10px; width: 38px; height: 38px; padding: 0; border-radius: 50%; font-size: 17px; border: 0; background: var(--surface); box-shadow: var(--shadow); }
 .bell[aria-pressed="true"] { background: var(--glow); }
 
-.status { display: grid; gap: 7px; }
 .status-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
 .pill { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: 999px; font-weight: 700; font-size: 13px; }
 .pill.open { color: var(--open); background: var(--open-bg); }
 .pill.text { color: var(--text); background: var(--text-bg); }
 .pill.closed { color: var(--off); background: var(--off-bg); }
-.tag { display: inline-flex; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--line); font-size: 12px; font-weight: 600; color: var(--muted); }
-.timebar { height: 6px; border-radius: 99px; background: var(--off-bg); overflow: hidden; }
-.timebar i { display: block; height: 100%; border-radius: inherit; background: var(--open); }
-.timebar.text i { background: var(--text); }
 
 .note { margin: 0; padding: 10px 14px 12px; background: var(--note); border-radius: 4px 16px 16px 16px; font: 600 23px/1.12 var(--f-hand); transform: rotate(-.5deg); overflow-wrap: anywhere; }
-.meta { display: grid; gap: 4px; font-size: 13px; color: var(--muted); }
-.meta b { color: var(--ink); font-weight: 600; }
 
-/* Visitors walking up the path */
-.path { position: relative; height: 42px; }
-.path::before { content: ""; position: absolute; left: 14px; right: 28px; top: 50%; border-top: 2px dashed var(--line); }
-.path .house { position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 22px; }
-.walker { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 34px; height: 34px; border-radius: 50%; background: var(--surface); border: 2px solid var(--glow); display: grid; place-items: center; font-size: 17px; transition: left .8s ease; }
-.walker b { position: absolute; top: -9px; right: -9px; font-size: 15px; font-weight: 400; }
-.walk-label, .stopped { margin: 0; font-size: 13px; font-weight: 600; }
-.stopped { color: var(--pop); }
 
 .actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 10px 16px; font-weight: 600; font-size: 15px; }
 .btn:hover { border-color: var(--muted); }
 .btn.pop { background: var(--pop); color: var(--pop-ink); border-color: transparent; }
 .btn.pop:hover { filter: brightness(1.06); }
+.btn.ink { background: var(--ink); color: var(--bg); border-color: transparent; }
+.where { margin: 0; font-size: 13px; font-weight: 600; }
+.coming { margin: 0; font-size: 14px; font-weight: 600; color: var(--open); }
+.form-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.settings { border-radius: 20px; border: 1.5px dashed var(--line); }
+.settings > summary { padding: 14px 16px; cursor: pointer; font-weight: 600; font-size: 14px; color: var(--muted); }
+.settings-body { display: grid; gap: 14px; padding: 0 12px 12px; }
 .btn.ghost { background: transparent; border-color: transparent; color: var(--muted); padding-inline: 8px; }
 .btn.block { width: 100%; padding-block: 14px; font-size: 16px; }
 .chip { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 7px 12px; font-size: 14px; font-weight: 500; }
 .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .chips { display: flex; gap: 8px; flex-wrap: wrap; }
-.eta { display: grid; gap: 10px; padding: 12px; border-radius: 16px; background: var(--surface-2); border: 1px dashed var(--line); }
-.eta p { margin: 0; font-weight: 600; font-size: 14px; }
-.emoji-chip { width: 40px; height: 40px; padding: 0; font-size: 19px; }
 .headed { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; padding: 10px 14px; border-radius: 16px; background: var(--open-bg); color: var(--open); font-weight: 600; font-size: 14px; }
 
-/* One-tap switch on your own card */
-.switch3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 4px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 18px; }
-.switch3 button { display: flex; align-items: center; justify-content: center; gap: 7px; border: 0; background: transparent; border-radius: 14px; padding: 10px 4px; font-weight: 600; font-size: 13px; color: var(--muted); }
-.switch3 button .lamp { width: 11px; height: 11px; }
-.switch3 button[aria-pressed="true"] { background: var(--surface); color: var(--ink); box-shadow: var(--shadow); }
-.mine-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
 
 /* My house */
 .sec { display: grid; gap: 10px; }
@@ -203,17 +185,12 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
 .form { display: grid; gap: 22px; padding: 18px; border-radius: 26px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
 .form .chip { background: var(--surface-2); }
 .form .chip[aria-pressed="true"] { background: var(--ink); }
-.form-head { display: grid; gap: 4px; }
 .form-title { margin: 0; font: 800 24px/1.1 var(--f-display); letter-spacing: -.02em; }
-.preview-wrap { display: grid; padding: 12px 14px; border-radius: 18px; border: 1.5px dashed var(--line); }
-.preview-wrap summary { cursor: pointer; font-weight: 600; font-size: 14px; color: var(--muted); }
-.preview-wrap[open] summary { margin-bottom: 12px; }
-.savebar { position: sticky; bottom: calc(env(safe-area-inset-bottom, 0px) + var(--nav-h) + 22px); z-index: 4; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 10px 10px 10px 18px; border-radius: 22px; background: var(--ink); color: var(--bg); box-shadow: var(--shadow); }
+.savebar { position: sticky; bottom: calc(env(safe-area-inset-bottom, 0px) + var(--nav-h) + 22px); z-index: 4; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: nowrap; padding: 10px 10px 10px 18px; border-radius: 22px; background: var(--ink); color: var(--bg); box-shadow: var(--shadow); }
 .savebar-txt { display: grid; min-width: 0; font-size: 12px; }
 .savebar-txt strong { font-size: 15px; }
 .savebar-txt span { opacity: .75; }
 .savebar .btn:disabled { opacity: 1; background: transparent; color: var(--bg); border-color: transparent; cursor: default; }
-.settings-label { margin: 10px 0 -6px; font-size: 12px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
 .panel-card { display: grid; gap: 12px; padding: 16px; border-radius: 22px; background: var(--surface); border: 1px solid var(--line); }
 .swatches { display: flex; gap: 10px; flex-wrap: wrap; }
 .swatch { width: 40px; height: 40px; padding: 0; border-radius: 50%; border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--line); background: var(--c1); }
@@ -273,7 +250,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
       <summary><span>🧪 Prototype controls · <span id="clockMini" class="tabular"></span></span></summary>
       <div class="proto-body">
         <div class="clock tabular" id="clock"></div>
-        <p>Move the clock forward to watch statuses run down, open hours switch on and off, and friends arrive.</p>
+        <p>Move the clock forward to watch statuses end and open hours switch on and off.</p>
         <div class="chips">
           <button class="chip" data-act="clock" data-mins="30">+30 min</button>
           <button class="chip" data-act="clock" data-mins="120">+2 hours</button>
@@ -285,7 +262,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
         </div>
         <h2>What we're testing</h2>
         <ul>
-          <li><b>Statuses expire.</b> Every status has an end time and a bar that runs down. Is 2 hours the right default?</li>
+          <li><b>Statuses expire.</b> Every status has an end time. Is 2 hours the right default?</li>
           <li><b>Notes expire too.</b> "Made ice cream!" never lingers into Tuesday.</li>
           <li><b>Groups.</b> Anyone can make a group and invite people to it. The sample groups show neighbors who can pop over in minutes and friends who live farther away. Does the same app work for both?</li>
           <li><b>High trust identity.</b> Anyone can pick any house in "You are." A phone-number login comes later.</li>
@@ -345,8 +322,6 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     "🍅 Too many tomatoes. Take some!",
   ];
   const SURPRISES = ["🍪 Just pulled cookies out of the oven", "🌭 Grill's on, we have extra", "🧩 Puzzle on the table, need help"];
-  const REACTIONS = ['👋', '🍦', '👶', '🌸', '🎉', '☕'];
-  const ETAS = [{ m: 5, label: 'Leaving now' }, { m: 15, label: '~15 min' }, { m: 30, label: '~30 min' }, { m: 60, label: 'In an hour' }];
 
   const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const $ = s => document.querySelector(s);
@@ -367,8 +342,8 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
   const mins = s => { const [h, m] = s.split(':').map(Number); return h * 60 + m; };
 
   // ---- State ----
-  let households, currentId, watched, feed, prevStates, draft, omw, asked, tab, groupFilter;
-  let previewOpen = false;
+  let households, currentId, watched, feed, prevStates, draft, asked, tab, groupFilter;
+  let editing = false, settingsOpen = false;
   let uid = 1;
 
   function seed() {
@@ -382,15 +357,12 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
         where: 'Backyard, come through the side gate',
         hoursNote: 'Open hours! Baby naps permitting, knock gently.',
         hours: [W([1, 2, 3, 4, 5], '16:00', '18:00'), W([0, 6], '10:00', '12:00')],
-        visitors: [
-          { from: 'okafor', at: n - 100 * MIN, eta: n - 85 * MIN, emoji: '👶', celebrated: true },
-          { from: 'hannah', at: n - 20 * MIN, eta: n + 25 * MIN, emoji: '🍦' },
-        ] },
+        visitors: [{ from: 'hannah', at: n - 20 * MIN }] },
       { id: 'okafor', name: 'The Okafors', members: 'Ada, Tunde + 3 kids · 2 blocks away', emoji: '🛝', groups: ['neighbors'], color: 'sun', pattern: 'stripes',
         manual: { state: 'open', since: n - 30 * MIN, until: n + 2 * HOUR }, dur: '2h',
         note: "Kids are on the trampoline and the coffee's hot ☕ Bring your littles!",
         where: 'Front porch', hoursNote: '', hours: [],
-        visitors: [{ from: 'priya', at: n - 4 * MIN, eta: n + 11 * MIN, emoji: '🌸' }] },
+        visitors: [{ from: 'priya', at: n - 4 * MIN }] },
       { id: 'priya', name: 'Priya & Sam', members: 'and baby Ravi · around the corner', emoji: '🪴', groups: ['neighbors'], color: 'mint', pattern: 'dots',
         manual: { state: 'text', since: n - HOUR, until: n + 3 * HOUR }, dur: '4h',
         note: 'Home doing garden stuff. Text first, we might be covered in dirt 🌱',
@@ -422,7 +394,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     watched = new Set(['okafor', 'bea', 'park']);
     feed = [];
     asked = new Set();
-    omw = null;
+    editing = false;
     tab = 'board';
     groupFilter = 'all';
     draft = freshDraft();
@@ -463,8 +435,8 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     if (w) return { state: 'open', since: w.start, until: w.end, source: 'hours' };
     return { state: 'closed', source: 'none', next: nextWindow(h, t) };
   }
-  const coming = (h, t = now()) => h.visitors.filter(v => v.eta > t);
-  const arrived = (h, t = now()) => h.visitors.filter(v => v.eta <= t && t < v.eta + 3 * HOUR);
+  // "Coming" lasts two hours after someone taps it, then quietly disappears
+  const coming = (h, t = now()) => h.visitors.filter(v => t < v.at + 2 * HOUR);
   const snapshot = () => Object.fromEntries(households.map(h => [h.id, effective(h).state]));
   const visible = () => households.filter(h => groupFilter === 'all' || h.groups.includes(groupFilter));
 
@@ -545,74 +517,33 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     }
     prevStates = cur;
   }
-  function arrivalCheck() {
-    const t = now();
-    for (const v of me().visitors) {
-      if (v.celebrated || v.eta > t) continue;
-      v.celebrated = true;
-      const msg = `🎉 ${nameOf(v.from)} stopped by! ${v.emoji}`;
-      toast(msg); log(msg);
-    }
-  }
-  function tickChecks() { notifyCheck(); arrivalCheck(); }
+  const tickChecks = () => notifyCheck();
 
   // ---- Rendering: a household card ----
-  function cardHTML(h, { preview = false } = {}) {
-    const t = now(), e = effective(h, t), isMe = h.id === currentId && !preview;
+  function cardHTML(h, { preview = false, mine = false } = {}) {
+    const t = now(), e = effective(h, t), isMe = (h.id === currentId && !preview) || mine;
     let timing;
-    if (e.state !== 'closed') timing = `until ${fmtWhen(e.until)} · ${fmtLeft(e.until - t)}`;
+    if (e.state !== 'closed') timing = `until ${fmtWhen(e.until)}${e.source === 'hours' ? ' · regular hours' : ''}`;
     else if (e.source === 'manual') timing = `until ${fmtWhen(e.until)}`;
-    else timing = e.next ? `opens ${fmtWhen(e.next)}` : 'no open hours set';
-    const pct = e.state !== 'closed' ? Math.max(0, Math.min(100, (e.until - t) / Math.max(1, e.until - e.since) * 100)) : 0;
+    else timing = e.next ? `opens ${fmtWhen(e.next)}` : '';
     const note = e.source === 'manual' ? h.note : e.source === 'hours' ? h.hoursNote : '';
-    const hoursTxt = fmtHours(h);
-
-    const walkers = coming(h, t);
-    const here = arrived(h, t);
-    const meComing = walkers.find(v => v.from === currentId);
-    const meHere = here.find(v => v.from === currentId);
-
-    let pathHTML = '';
-    if (walkers.length) {
-      const names = walkers.map(v => v.from === currentId ? 'You' : nameOf(v.from));
-      pathHTML = `<div class="path" aria-hidden="true">
-          ${walkers.map(v => { const p = Math.max(0, Math.min(1, (t - v.at) / Math.max(1, v.eta - v.at))); return `<span class="walker" style="left: calc(16px + ${p.toFixed(3)} * (100% - 64px))">${esc((byId(v.from) || {}).emoji || '🙂')}<b>${esc(v.emoji)}</b></span>`; }).join('')}
-          <span class="house">${esc(h.emoji)}</span>
-        </div>
-        <p class="walk-label">${esc(joinNames(names))} ${names.length > 1 || names[0] === 'You' || isPlural(names[0]) ? 'are' : 'is'} on the way · ${walkers.map(v => esc(v.emoji)).join(' ')}</p>`;
-    }
-    const stoppedHTML = here.length
-      ? `<p class="stopped">✨ ${esc(joinNames(here.map(v => v.from === currentId ? 'You' : nameOf(v.from))))} stopped by today</p>` : '';
+    const guests = coming(h, t);
+    const meComing = guests.some(v => v.from === currentId);
 
     let actions = '';
     if (isMe) {
-      actions = `<div class="switch3" role="group" aria-label="Your door">
-          ${Object.entries(STATES).map(([k, s]) => `<button data-act="quick" data-state="${k}" aria-pressed="${e.source === 'manual' && e.state === k}"><span class="lamp ${k}" aria-hidden="true"></span>${s.short}</button>`).join('')}
-        </div>
-        <div class="mine-foot"><span>${e.source === 'hours' ? 'Open because of your regular hours' : e.source === 'manual' ? `Tap to switch. Ends ${fmtWhen(e.until)}.` : 'Tap to open your door for ' + (DURATIONS.find(d => d.k === (h.dur || '2h')) || DURATIONS[1]).label}</span>
-        <button class="btn ghost" data-act="tab" data-tab="mine">Edit note & details →</button></div>`;
-    } else if (!preview && meComing) {
-      actions = `<div class="headed"><span>👋 You're on the way · there ~${fmtTime(meComing.eta)}</span><button class="btn ghost" data-act="omw-cancel" data-id="${h.id}">Cancel</button></div>`;
-    } else if (!preview && meHere) {
-      actions = '';
-    } else if (!preview && e.state === 'open') {
-      if (omw && omw.id === h.id) {
-        actions = `<div class="eta">
-          <p>Send a little hello</p>
-          <div class="chips">${REACTIONS.map(r => `<button class="chip emoji-chip" data-act="omw-emoji" data-e="${r}" aria-pressed="${omw.emoji === r}" aria-label="Send ${r}">${r}</button>`).join('')}</div>
-          <p>When will you get there?</p>
-          <div class="chips">${ETAS.map(x => `<button class="chip" data-act="omw-eta" data-id="${h.id}" data-m="${x.m}">${x.label}</button>`).join('')}<button class="btn ghost" data-act="omw-close">Never mind</button></div>
-        </div>`;
-      } else {
-        actions = `<div class="actions"><button class="btn pop" data-act="omw" data-id="${h.id}">On my way 👋</button></div>`;
-      }
-    } else if (!preview && e.state === 'text') {
+      if (!preview) actions = `<div class="actions"><button class="btn ink" data-act="change">Change</button></div>`;
+    } else if (e.state === 'open') {
+      actions = meComing
+        ? `<div class="headed"><span>👋 You're coming</span><button class="btn ghost" data-act="omw-cancel" data-id="${h.id}">Cancel</button></div>`
+        : `<div class="actions"><button class="btn pop" data-act="omw" data-id="${h.id}">I'm coming 👋</button></div>`;
+    } else if (e.state === 'text') {
       actions = asked.has(h.id)
         ? `<div class="headed"><span>💬 Asked! Watch your texts.</span></div>`
         : `<div class="actions"><button class="btn" data-act="ask" data-id="${h.id}">Ask to swing by 💬</button></div>`;
     }
 
-    const bell = (!preview && !isMe)
+    const bell = !isMe
       ? `<button class="bell" data-act="bell" data-id="${h.id}" aria-pressed="${watched.has(h.id)}" aria-label="${watched.has(h.id) ? 'Stop notifying me about' : 'Notify me when this house opens:'} ${esc(h.name)}" title="${watched.has(h.id) ? 'Notifying you' : 'Notify me when they open'}">${watched.has(h.id) ? '🔔' : '🔕'}</button>`
       : '';
 
@@ -621,17 +552,10 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
       ${bell}
       <div class="av" aria-hidden="true">${esc(h.emoji)}<span class="lamp ${e.state}"></span></div>
       <div class="names"><h3>${esc(h.name)}${isMe ? '<span class="you-tag">YOU</span>' : ''}</h3><p>${esc(h.members)}</p></div>
-      <div class="status">
-        <div class="status-row"><span class="pill ${e.state}">${STATES[e.state].label}</span><span class="tabular">${esc(timing)}</span>${e.source === 'hours' ? '<span class="tag">🗓 Regular open hours</span>' : ''}</div>
-        ${e.state !== 'closed' ? `<div class="timebar ${e.state}" role="img" aria-label="${esc(fmtLeft(e.until - t))}"><i style="width: ${pct.toFixed(1)}%"></i></div>` : ''}
-      </div>
+      <div class="status-row"><span class="pill ${e.state}">${STATES[e.state].label}</span>${timing ? `<span class="tabular">${esc(timing)}</span>` : ''}</div>
       ${note ? `<p class="note">${esc(note)}</p>` : ''}
-      ${(e.state !== 'closed' && h.where) || hoursTxt ? `<div class="meta">
-        ${e.state !== 'closed' && h.where ? `<span>📍 <b>${esc(h.where)}</b></span>` : ''}
-        ${hoursTxt ? `<span>🚪 Open hours: ${esc(hoursTxt)}</span>` : ''}
-      </div>` : ''}
-      ${pathHTML}
-      ${stoppedHTML}
+      ${!isMe && e.state !== 'closed' && h.where ? `<p class="where">📍 ${esc(h.where)}</p>` : ''}
+      ${guests.length ? `<p class="coming">👋 Coming: ${esc(joinNames(guests.map(v => v.from === currentId ? 'You' : nameOf(v.from))))}</p>` : ''}
       ${actions}
     </article>`;
   }
@@ -673,6 +597,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
   }
   function previewHousehold() {
     const t = now();
+    if (draftLive(me())) return me();
     return { ...me(), manual: { state: draft.state, since: t, until: untilFor(draft.dur, t) }, note: draft.note, where: draft.where, visitors: [] };
   }
   const draftLive = h => !!(h.manual && h.manual.until > now() && h.manual.state === draft.state && h.dur === draft.dur && h.note === draft.note.trim() && h.where === draft.where.trim());
@@ -680,30 +605,16 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     const h = me(), live = draftLive(h);
     const until = live ? h.manual.until : untilFor(draft.dur, now());
     const summary = `${STATES[draft.state].label} until ${fmtWhen(until)}`;
-    const label = draft.state === 'closed' ? 'Save & close door' : 'Save & share update';
     return `<div class="savebar-txt"><strong class="tabular">${esc(summary)}</strong><span>${live ? '✓ Saved. Friends can see this.' : 'Not saved yet'}</span></div>
-      <button class="btn pop" data-act="share" ${live ? 'disabled' : ''}>${live ? 'Saved' : label}</button>`;
+      <button class="btn pop" data-act="share" ${live ? 'disabled' : ''}>${live ? 'Saved' : 'Save'}</button>`;
   }
 
   function renderMine() {
-    const h = me(), e = effective(h), t = now();
-    const walkers = coming(h, t), here = arrived(h, t);
+    const h = me(), t = now();
     const until = untilFor(draft.dur, t);
-    const vrow = (v, txt) => { const f = byId(v.from) || { name: 'A friend', emoji: '🙂' }; return `<div class="vrow"><div class="av" aria-hidden="true">${esc(f.emoji)}</div><span><b>${esc(f.name)}</b> ${txt} ${esc(v.emoji)}</span></div>`; };
-    return `
-      <div class="hello">
-        <h2>${e.state === 'open' ? 'Your door is open' : e.state === 'text' ? "You're home, text first" : 'Your door is closed'}</h2>
-        <p>${e.state === 'closed' ? (e.next ? `Open hours start ${fmtWhen(e.next)}` : 'Set a status or add open hours below') : `Until ${fmtWhen(e.until)}${e.source === 'hours' ? ' (regular open hours)' : ''}`}</p>
-      </div>
-
-      ${walkers.length ? `<div class="sec"><h2>On the way to you</h2>${walkers.map(v => vrow(v, `· there ~${fmtTime(v.eta)}`)).join('')}</div>` : ''}
-      ${here.length ? `<div class="sec"><h2>Stopped by today</h2>${here.map(v => vrow(v, `· ${fmtTime(v.eta)}`)).join('')}</div>` : ''}
-
+    const form = `
       <div class="form">
-        <div class="form-head">
-          <h2 class="form-title">Update your status</h2>
-          <p class="hint">Pick your status, add a note, then tap save. It ends on its own.</p>
-        </div>
+        <div class="form-top"><h2 class="form-title">Change your status</h2><button class="btn ghost" data-act="cancel-edit">Cancel</button></div>
 
         <div class="sec">
           <h2>Is your door open?</h2>
@@ -715,11 +626,11 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
         <div class="sec">
           <h2>For how long?</h2>
           <div class="chips">${DURATIONS.map(d => `<button class="chip" data-act="dur" data-dur="${d.k}" aria-pressed="${draft.dur === d.k}">${d.label}</button>`).join('')}</div>
-          <p class="hint tabular">${draft.state === 'closed' ? 'Stays closed until' : 'Closes on its own at'} ${fmtWhen(until)}. After that, your open hours take over.</p>
+          <p class="hint tabular">Ends on its own at ${fmtWhen(until)}.</p>
         </div>
 
         <div class="sec">
-          <h2>What's going on?</h2>
+          <h2>Note</h2>
           <div class="field">
             <textarea class="input" id="note" maxlength="140" placeholder="We made ice cream. Come get a scoop!" aria-label="Note for friends">${esc(draft.note)}</textarea>
             <span class="counter tabular" id="noteCount">${draft.note.length}/140</span>
@@ -730,17 +641,17 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
         <div class="field"><label for="where">Which door?</label>
           <input class="input" id="where" value="${esc(draft.where)}" placeholder="Backyard, come through the side gate"></div>
 
-        <details class="preview-wrap" id="previewBox" ${previewOpen ? 'open' : ''}>
-          <summary>Preview what friends will see</summary>
-          <div id="preview">${cardHTML(previewHousehold(), { preview: true })}</div>
-        </details>
-
         <div class="savebar" id="savebar">${saveBarHTML()}</div>
         ${h.manual && h.manual.until > t ? `<button class="btn ghost" data-act="clear">Clear my status and go back to open hours</button>` : ''}
-      </div>
+      </div>`;
+    return `
+      <div class="hello"><h2>My house</h2></div>
+      <div id="myCard">${editing ? cardHTML(previewHousehold(), { preview: true, mine: true }) : cardHTML(h)}</div>
+      ${editing ? form : ''}
 
-      <p class="settings-label">Settings · these save automatically</p>
-
+      <details class="settings" id="settingsBox" ${settingsOpen ? 'open' : ''}>
+      <summary>Card style, open hours & household</summary>
+      <div class="settings-body">
       <div class="panel-card">
         <div class="sec">
           <h2>Your card</h2>
@@ -771,7 +682,9 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
           <div class="field"><label for="hname">Name</label><input class="input" id="hname" value="${esc(h.name)}"></div>
           <div class="field"><label for="hmembers">Who lives here</label><input class="input" id="hmembers" value="${esc(h.members)}"></div>
         </div>
-      </div>`;
+      </div>
+      </div>
+      </details>`;
   }
 
   function renderAlerts() {
@@ -821,7 +734,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     $('#view').innerHTML = tab === 'board' ? renderBoard() : tab === 'mine' ? renderMine() : renderAlerts();
   }
   function refreshPreview() {
-    const p = $('#preview'); if (p) p.innerHTML = cardHTML(previewHousehold(), { preview: true });
+    const p = $('#myCard'); if (p && editing) p.innerHTML = cardHTML(previewHousehold(), { preview: true, mine: true });
     const c = $('#noteCount'); if (c) c.textContent = `${draft.note.length}/140`;
     const sb = $('#savebar'); if (sb) sb.innerHTML = saveBarHTML();
   }
@@ -833,11 +746,11 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     arrivalTimer = setTimeout(() => {
       const h = me(), t = now();
       if (effective(h, t).state !== 'open') return;
-      const candidates = households.filter(x => x.id !== currentId && !h.visitors.some(v => v.from === x.id && v.eta + 3 * HOUR > t));
+      const candidates = households.filter(x => x.id !== currentId && !coming(h, t).some(v => v.from === x.id));
       if (!candidates.length) return;
-      const f = pick(candidates), emoji = pick(REACTIONS);
-      h.visitors.push({ from: f.id, at: t, eta: t + 15 * MIN, emoji });
-      const msg = `👋 ${f.name} ${verb(f.name, 'is', 'are')} on the way ${emoji} there in ~15 min`;
+      const f = pick(candidates);
+      h.visitors.push({ from: f.id, at: t });
+      const msg = `👋 ${f.name} ${verb(f.name, 'is', 'are')} coming over`;
       toast(msg); log(msg); render();
     }, 3500);
   }
@@ -858,8 +771,10 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     const act = b.dataset.act, id = b.dataset.id;
     const h = id && byId(id);
     switch (act) {
-      case 'tab': tab = b.dataset.tab; if (tab === 'mine') draft = freshDraft(); omw = null; window.scrollTo({ top: 0 }); break;
-      case 'group': groupFilter = b.dataset.g; omw = null; break;
+      case 'tab': tab = b.dataset.tab; editing = false; window.scrollTo({ top: 0 }); break;
+      case 'change': tab = 'mine'; editing = true; draft = freshDraft(); window.scrollTo({ top: 0 }); break;
+      case 'cancel-edit': editing = false; draft = freshDraft(); break;
+      case 'group': groupFilter = b.dataset.g; break;
       case 'new-group': toast('Coming soon: name a group and share an invite link'); return;
       case 'bell':
         if (watched.has(id)) watched.delete(id); else watched.add(id);
@@ -874,18 +789,12 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
         if (st === 'open') simulateVisitor();
         break;
       }
-      case 'omw': omw = { id, emoji: '👋' }; break;
-      case 'omw-emoji': if (omw) omw.emoji = b.dataset.e; break;
-      case 'omw-close': omw = null; break;
-      case 'omw-eta': {
-        const t = now(), eta = t + Number(b.dataset.m) * MIN;
+      case 'omw':
         h.visitors = h.visitors.filter(v => v.from !== currentId);
-        h.visitors.push({ from: currentId, at: t, eta, emoji: omw ? omw.emoji : '👋' });
-        toast(`${omw ? omw.emoji : '👋'} Told ${h.name} you'll be there ~${fmtTime(eta)}`);
-        omw = null;
+        h.visitors.push({ from: currentId, at: now() });
+        toast(`👋 Told ${h.name} you're coming`);
         break;
-      }
-      case 'omw-cancel': h.visitors = h.visitors.filter(v => !(v.from === currentId && v.eta > now())); toast(`Let ${h.name} know you're not coming after all`); break;
+      case 'omw-cancel': h.visitors = h.visitors.filter(v => v.from !== currentId); toast(`Let ${h.name} know you're not coming after all`); break;
       case 'ask':
         asked.add(id);
         toast(`💬 Sent ${h.name} a "can I swing by?"`);
@@ -898,7 +807,8 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
         const m = me();
         setStatus(m, draft.state, draft.dur);
         m.note = draft.note.trim(); m.where = draft.where.trim();
-        toast(draft.state === 'closed' ? `Door closed until ${fmtWhen(m.manual.until)}` : `✨ Shared! Your status ends at ${fmtWhen(m.manual.until)}`);
+        editing = false;
+        toast(draft.state === 'closed' ? `Door closed until ${fmtWhen(m.manual.until)}` : `✨ Saved! Your status ends at ${fmtWhen(m.manual.until)}`);
         if (draft.state === 'open') simulateVisitor();
         prevStates = snapshot();
         break;
@@ -932,12 +842,12 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     else if (el.id === 'hmembers') { me().members = el.value; refreshPreview(); }
   });
   document.addEventListener('toggle', ev => {
-    if (ev.target.id === 'previewBox') previewOpen = ev.target.open;
+    if (ev.target.id === 'settingsBox') settingsOpen = ev.target.open;
     if (ev.target.id === 'proto') { try { localStorage.setItem('od-proto-open', ev.target.open ? '1' : '0'); } catch (e) {} }
   }, true);
   document.addEventListener('change', ev => {
     const el = ev.target;
-    if (el.id === 'whoami') { currentId = el.value; draft = freshDraft(); omw = null; prevStates = snapshot(); render(); toast(`You're now ${me().name}. High trust mode!`); return; }
+    if (el.id === 'whoami') { currentId = el.value; draft = freshDraft(); editing = false; prevStates = snapshot(); render(); toast(`You're now ${me().name}. High trust mode!`); return; }
     if (el.dataset.hours && el.value) {
       const w = me().hours.find(x => x.id === Number(el.dataset.w));
       w[el.dataset.hours] = el.value;
