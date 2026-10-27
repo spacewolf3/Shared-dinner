@@ -95,7 +95,7 @@ button { cursor: pointer; }
 
 /* Bottom tab bar */
 .nav { position: sticky; bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); z-index: 6; height: var(--nav-h); margin-bottom: 10px;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow); }
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 6px; background: var(--surface); border: 1px solid var(--line); border-radius: 24px; box-shadow: var(--shadow); }
 .nav button { position: relative; display: grid; place-items: center; align-content: center; gap: 1px; border: 0; background: transparent; border-radius: 18px; color: var(--muted); font-weight: 600; font-size: 12px; }
 .nav button .ico { font-size: 20px; line-height: 1; }
 .nav button[aria-selected="true"] { background: var(--surface-2); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
@@ -153,10 +153,12 @@ button { cursor: pointer; }
 .btn:hover { border-color: var(--muted); }
 .btn.pop { background: var(--pop); color: var(--pop-ink); border-color: transparent; }
 .btn.pop:hover { filter: brightness(1.06); }
-.btn.ink { background: var(--ink); color: var(--bg); border-color: transparent; }
+.my-controls { display: grid; gap: 10px; }
+.until-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-weight: 600; }
+.until-row select { border: 1px solid var(--line); background: var(--surface-2); border-radius: 12px; padding: 9px 12px; font-weight: 600; font-size: 15px; color: var(--ink); }
+.panel-card .hint + .field, .panel-card > .hint { margin: 0; }
 .where { margin: 0; font-size: 13px; font-weight: 600; }
 .coming { margin: 0; font-size: 14px; font-weight: 600; color: var(--open); }
-.form-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .settings { border-radius: 20px; border: 1.5px dashed var(--line); }
 .settings > summary { padding: 14px 16px; cursor: pointer; font-weight: 600; font-size: 14px; color: var(--muted); }
 .settings-body { display: grid; gap: 14px; padding: 0 12px 12px; }
@@ -173,24 +175,11 @@ button { cursor: pointer; }
 .sec > h2, .sec-h { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
 .sec .hint, .hint { margin: 0; font-size: 13px; color: var(--muted); }
 .opts { display: grid; gap: 8px; }
-.opt { display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; padding: 13px 16px; border: 1.5px solid var(--line); border-radius: 18px; background: var(--surface-2); }
-.opt strong { display: block; font: 700 17px/1.2 var(--f-display); }
-.opt span.sub { display: block; font-size: 13px; color: var(--muted); }
-.opt[aria-pressed="true"] { background: var(--surface); border-color: var(--ink); box-shadow: 0 0 0 4px var(--glow-soft); }
 .field { display: grid; gap: 6px; }
 .field label { font-size: 13px; font-weight: 600; }
 .input { width: 100%; border: 1px solid var(--line); background: var(--surface-2); border-radius: 14px; padding: 11px 13px; font-size: 15px; }
 textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f-hand); }
 .counter { justify-self: end; font-size: 12px; color: var(--muted); }
-.form { display: grid; gap: 22px; padding: 18px; border-radius: 26px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
-.form .chip { background: var(--surface-2); }
-.form .chip[aria-pressed="true"] { background: var(--ink); }
-.form-title { margin: 0; font: 800 24px/1.1 var(--f-display); letter-spacing: -.02em; }
-.savebar { position: sticky; bottom: calc(env(safe-area-inset-bottom, 0px) + var(--nav-h) + 22px); z-index: 4; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: nowrap; padding: 10px 10px 10px 18px; border-radius: 22px; background: var(--ink); color: var(--bg); box-shadow: var(--shadow); }
-.savebar-txt { display: grid; min-width: 0; font-size: 12px; }
-.savebar-txt strong { font-size: 15px; }
-.savebar-txt span { opacity: .75; }
-.savebar .btn:disabled { opacity: 1; background: transparent; color: var(--bg); border-color: transparent; cursor: default; }
 .panel-card { display: grid; gap: 12px; padding: 16px; border-radius: 22px; background: var(--surface); border: 1px solid var(--line); }
 .swatches { display: flex; gap: 10px; flex-wrap: wrap; }
 .swatch { width: 40px; height: 40px; padding: 0; border-radius: 50%; border: 3px solid var(--surface); box-shadow: 0 0 0 1px var(--line); background: var(--c1); }
@@ -297,10 +286,6 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     text:   { label: 'Text first', short: 'Text first', sub: "We're home, check with us first" },
     closed: { label: 'Door closed', short: 'Closed', sub: 'Not today' },
   };
-  const DURATIONS = [
-    { k: '1h', label: '1 hour' }, { k: '2h', label: '2 hours' }, { k: '4h', label: '4 hours' },
-    { k: 'tonight', label: 'Until 9 PM' }, { k: 'weekend', label: 'All weekend' },
-  ];
   const GROUPS = [
     { id: 'neighbors', name: 'Neighbors', emoji: '🏡' },
     { id: 'friends', name: 'Friends', emoji: '💛' },
@@ -342,8 +327,8 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
   const mins = s => { const [h, m] = s.split(':').map(Number); return h * 60 + m; };
 
   // ---- State ----
-  let households, currentId, watched, feed, prevStates, draft, asked, tab, groupFilter;
-  let editing = false, settingsOpen = false;
+  let households, currentId, watched, feed, prevStates, asked, tab, groupFilter;
+  let settingsOpen = false;
   let uid = 1;
 
   function seed() {
@@ -394,10 +379,8 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     watched = new Set(['okafor', 'bea', 'park']);
     feed = [];
     asked = new Set();
-    editing = false;
     tab = 'board';
     groupFilter = 'all';
-    draft = freshDraft();
     prevStates = snapshot();
   }
 
@@ -440,19 +423,17 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
   const snapshot = () => Object.fromEntries(households.map(h => [h.id, effective(h).state]));
   const visible = () => households.filter(h => groupFilter === 'all' || h.groups.includes(groupFilter));
 
-  function untilFor(k, t) {
-    if (k === '1h') return t + HOUR;
-    if (k === '2h') return t + 2 * HOUR;
-    if (k === '4h') return t + 4 * HOUR;
-    if (k === 'tonight') { const x = atDay(t, 0, 21 * 60); return x > t ? x : t + HOUR; }
-    const d = new Date(t).getDay();
-    const x = atDay(t, (7 - d) % 7, 20 * 60);
-    return x > t ? x : t + HOUR;
-  }
-  function setStatus(h, state, dur) {
+  // Opening your door lasts 3 hours by default; end times snap to the half hour
+  const DEFAULT_OPEN = 3 * HOUR;
+  const roundUp30 = t => Math.ceil(t / (30 * MIN)) * 30 * MIN;
+  function openDoor(h, state = 'open') {
     const t = now();
-    h.manual = { state, since: t, until: untilFor(dur, t) };
-    h.dur = dur;
+    h.manual = { state, since: t, until: roundUp30(t + DEFAULT_OPEN) };
+  }
+  function closeDoor(h) {
+    // During regular open hours, closing holds the door shut until those hours end
+    const w = activeWindow(h, now());
+    h.manual = w ? { state: 'closed', since: now(), until: w.end } : null;
   }
 
   // ---- Formatting ----
@@ -527,12 +508,12 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     else if (e.source === 'manual') timing = `until ${fmtWhen(e.until)}`;
     else timing = e.next ? `opens ${fmtWhen(e.next)}` : '';
     const note = e.source === 'manual' ? h.note : e.source === 'hours' ? h.hoursNote : '';
-    const guests = coming(h, t);
+    const guests = e.state === 'closed' ? [] : coming(h, t);
     const meComing = guests.some(v => v.from === currentId);
 
     let actions = '';
     if (isMe) {
-      if (!preview) actions = `<div class="actions"><button class="btn ink" data-act="change">Change</button></div>`;
+      if (!preview) actions = myControlsHTML(h);
     } else if (e.state === 'open') {
       actions = meComing
         ? `<div class="headed"><span>👋 You're coming</span><button class="btn ghost" data-act="omw-cancel" data-id="${h.id}">Cancel</button></div>`
@@ -590,67 +571,61 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
       </div>`;
   }
 
-  function freshDraft() {
-    const h = me();
-    const st = h.manual && h.manual.until > now() ? h.manual.state : 'open';
-    return { state: st, dur: h.dur || '2h', note: h.note, where: h.where };
+  // ---- Your own door controls (on your card, everywhere it appears) ----
+  function endOptions(cur) {
+    const t = now(), opts = [];
+    const lastToday = atDay(t, 0, 23 * 60 + 30);
+    for (let x = roundUp30(t + 30 * MIN); x <= lastToday; x += 30 * MIN) opts.push(x);
+    const weekend = atDay(t, (7 - new Date(t).getDay()) % 7, 20 * 60);
+    if (weekend > lastToday) opts.push(weekend);
+    if (cur && !opts.includes(cur)) { opts.push(cur); opts.sort((a, b) => a - b); }
+    return opts;
   }
-  function previewHousehold() {
-    const t = now();
-    if (draftLive(me())) return me();
-    return { ...me(), manual: { state: draft.state, since: t, until: untilFor(draft.dur, t) }, note: draft.note, where: draft.where, visitors: [] };
-  }
-  const draftLive = h => !!(h.manual && h.manual.until > now() && h.manual.state === draft.state && h.dur === draft.dur && h.note === draft.note.trim() && h.where === draft.where.trim());
-  function saveBarHTML() {
-    const h = me(), live = draftLive(h);
-    const until = live ? h.manual.until : untilFor(draft.dur, now());
-    const summary = `${STATES[draft.state].label} until ${fmtWhen(until)}`;
-    return `<div class="savebar-txt"><strong class="tabular">${esc(summary)}</strong><span>${live ? '✓ Saved. Friends can see this.' : 'Not saved yet'}</span></div>
-      <button class="btn pop" data-act="share" ${live ? 'disabled' : ''}>${live ? 'Saved' : 'Save'}</button>`;
+  function myControlsHTML(h) {
+    const t = now(), e = effective(h, t);
+    if (e.source === 'manual' && e.state !== 'closed') {
+      return `<div class="my-controls">
+        <div class="until-row"><label for="endSel">Open until</label>
+          <select id="endSel">${endOptions(e.until).map(x => `<option value="${x}" ${x === e.until ? 'selected' : ''}>${esc(fmtWhen(x))}</option>`).join('')}</select></div>
+        <div class="actions">
+          <button class="chip" data-act="textfirst" aria-pressed="${e.state === 'text'}">💬 Ask friends to text first</button>
+          <button class="btn" data-act="close">Close my door</button>
+        </div>
+      </div>`;
+    }
+    const hint = e.source === 'hours'
+      ? `You're open now because of your regular open hours, until ${fmtWhen(e.until)}.`
+      : `Opens for 3 hours, until ${fmtTime(roundUp30(t + DEFAULT_OPEN))}. You can change the time after.`;
+    return `<div class="my-controls">
+      <button class="btn pop block" data-act="open">🚪 Open my door</button>
+      <p class="hint">${hint}</p>
+      ${e.source === 'hours' ? `<button class="btn ghost" data-act="close">Close for now</button>` : ''}
+    </div>`;
   }
 
   function renderMine() {
-    const h = me(), t = now();
-    const until = untilFor(draft.dur, t);
-    const form = `
-      <div class="form">
-        <div class="form-top"><h2 class="form-title">Change your status</h2><button class="btn ghost" data-act="cancel-edit">Cancel</button></div>
+    const h = me();
+    return `
+      <div class="hello"><h2>My house</h2></div>
+      <div id="myCard">${cardHTML(h)}</div>
 
-        <div class="sec">
-          <h2>Is your door open?</h2>
-          <div class="opts">
-            ${Object.entries(STATES).map(([k, s]) => `<button class="opt" data-act="state" data-state="${k}" aria-pressed="${draft.state === k}"><span class="lamp ${k}" aria-hidden="true"></span><span><strong>${s.label}</strong><span class="sub">${s.sub}</span></span></button>`).join('')}
-          </div>
-        </div>
-
-        <div class="sec">
-          <h2>For how long?</h2>
-          <div class="chips">${DURATIONS.map(d => `<button class="chip" data-act="dur" data-dur="${d.k}" aria-pressed="${draft.dur === d.k}">${d.label}</button>`).join('')}</div>
-          <p class="hint tabular">Ends on its own at ${fmtWhen(until)}.</p>
-        </div>
-
+      <div class="panel-card">
         <div class="sec">
           <h2>Note</h2>
+          <p class="hint">Friends see this while your door is open.</p>
           <div class="field">
-            <textarea class="input" id="note" maxlength="140" placeholder="We made ice cream. Come get a scoop!" aria-label="Note for friends">${esc(draft.note)}</textarea>
-            <span class="counter tabular" id="noteCount">${draft.note.length}/140</span>
+            <textarea class="input" id="note" maxlength="140" placeholder="We made ice cream. Come get a scoop!" aria-label="Note for friends">${esc(h.note)}</textarea>
+            <span class="counter tabular" id="noteCount">${h.note.length}/140</span>
           </div>
           <div class="chips">${IDEAS.map((x, i) => `<button class="chip" data-act="idea" data-i="${i}">${esc(x)}</button>`).join('')}</div>
         </div>
-
         <div class="field"><label for="where">Which door?</label>
-          <input class="input" id="where" value="${esc(draft.where)}" placeholder="Backyard, come through the side gate"></div>
-
-        <div class="savebar" id="savebar">${saveBarHTML()}</div>
-        ${h.manual && h.manual.until > t ? `<button class="btn ghost" data-act="clear">Clear my status and go back to open hours</button>` : ''}
-      </div>`;
-    return `
-      <div class="hello"><h2>My house</h2></div>
-      <div id="myCard">${editing ? cardHTML(previewHousehold(), { preview: true, mine: true }) : cardHTML(h)}</div>
-      ${editing ? form : ''}
+          <input class="input" id="where" value="${esc(h.where)}" placeholder="Backyard, come through the side gate"></div>
+        <p class="hint">Changes save as you type.</p>
+      </div>
 
       <details class="settings" id="settingsBox" ${settingsOpen ? 'open' : ''}>
-      <summary>Card style, open hours & household</summary>
+      <summary>Card style & household</summary>
       <div class="settings-body">
       <div class="panel-card">
         <div class="sec">
@@ -660,22 +635,6 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
           <div class="chips">${PATTERNS.map(p => `<button class="pat-btn" data-act="pattern" data-k="${p.k}" aria-pressed="${h.pattern === p.k}"><span class="swatch-pat pat-${p.k}" style="${themeStyle(h)}"></span>${p.name}</button>`).join('')}</div>
         </div>
       </div>
-
-      <div class="panel-card">
-        <div class="sec">
-          <h2>Open hours</h2>
-          <p class="hint">Regular times anyone can drop by, even unannounced. Your door opens by itself during these.</p>
-          ${h.hours.map(w => `<div class="hrow">
-            <div class="hrow-top"><span>${esc(fmtDays(w.days))}</span><button class="btn ghost" data-act="hours-del" data-w="${w.id}" aria-label="Remove these open hours">Remove</button></div>
-            <div class="days">${DAY_INITIAL.map((d, i) => `<button class="day" data-act="hours-day" data-w="${w.id}" data-d="${i}" aria-pressed="${w.days.includes(i)}" aria-label="${DAYS[i]}">${d}</button>`).join('')}</div>
-            <div class="times"><input type="time" id="hs-${w.id}" data-hours="start" data-w="${w.id}" value="${w.start}" aria-label="Start time"> to <input type="time" id="he-${w.id}" data-hours="end" data-w="${w.id}" value="${w.end}" aria-label="End time"></div>
-          </div>`).join('')}
-          <button class="btn" data-act="hours-add">+ Add open hours</button>
-          <div class="field"><label for="hoursNote">Note during open hours</label>
-            <input class="input" id="hoursNote" value="${esc(h.hoursNote)}" placeholder="Usually out front with coffee"></div>
-        </div>
-      </div>
-
       <div class="panel-card">
         <div class="sec">
           <h2>Your household</h2>
@@ -685,6 +644,28 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
       </div>
       </div>
       </details>`;
+  }
+
+  function renderHours() {
+    const h = me();
+    return `
+      <div class="hello">
+        <h2>Open hours</h2>
+        <p>Regular times anyone can drop by, even unannounced. Your door opens by itself during these.</p>
+      </div>
+      <div class="panel-card">
+        <div class="sec">
+          ${h.hours.length ? '' : '<p class="empty">No open hours yet.</p>'}
+          ${h.hours.map(w => `<div class="hrow">
+            <div class="hrow-top"><span>${esc(fmtDays(w.days))} ${esc(fmtRange(w.start, w.end))}</span><button class="btn ghost" data-act="hours-del" data-w="${w.id}" aria-label="Remove these open hours">Remove</button></div>
+            <div class="days">${DAY_INITIAL.map((d, i) => `<button class="day" data-act="hours-day" data-w="${w.id}" data-d="${i}" aria-pressed="${w.days.includes(i)}" aria-label="${DAYS[i]}">${d}</button>`).join('')}</div>
+            <div class="times"><input type="time" id="hs-${w.id}" data-hours="start" data-w="${w.id}" value="${w.start}" aria-label="Start time"> to <input type="time" id="he-${w.id}" data-hours="end" data-w="${w.id}" value="${w.end}" aria-label="End time"></div>
+          </div>`).join('')}
+          <button class="btn" data-act="hours-add">+ Add open hours</button>
+          <div class="field"><label for="hoursNote">Note during open hours</label>
+            <input class="input" id="hoursNote" value="${esc(h.hoursNote)}" placeholder="Usually out front with coffee"></div>
+        </div>
+      </div>`;
   }
 
   function renderAlerts() {
@@ -713,7 +694,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
   function renderTabs() {
     const t = now();
     const lit = visible().filter(h => h.id !== currentId && effective(h, t).state === 'open').length;
-    const tabs = [['board', '🚪', "Who's open", lit], ['mine', '🏡', 'My house', 0], ['alerts', '🔔', 'Alerts', 0]];
+    const tabs = [['board', '🚪', "Who's open", lit], ['mine', '🏡', 'My house', 0], ['hours', '🗓', 'Open hours', 0], ['alerts', '🔔', 'Alerts', 0]];
     $('#tabs').innerHTML = tabs.map(([k, i, l, c]) => `<button role="tab" aria-selected="${tab === k}" data-act="tab" data-tab="${k}"><span class="ico" aria-hidden="true">${i}</span>${l}${c ? `<span class="count">${c}</span>` : ''}</button>`).join('');
   }
   function renderGroups() {
@@ -731,12 +712,11 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
   }
   function render() {
     renderWho(); renderGroups(); renderTabs(); renderClock();
-    $('#view').innerHTML = tab === 'board' ? renderBoard() : tab === 'mine' ? renderMine() : renderAlerts();
+    $('#view').innerHTML = tab === 'board' ? renderBoard() : tab === 'mine' ? renderMine() : tab === 'hours' ? renderHours() : renderAlerts();
   }
-  function refreshPreview() {
-    const p = $('#myCard'); if (p && editing) p.innerHTML = cardHTML(previewHousehold(), { preview: true, mine: true });
-    const c = $('#noteCount'); if (c) c.textContent = `${draft.note.length}/140`;
-    const sb = $('#savebar'); if (sb) sb.innerHTML = saveBarHTML();
+  function refreshMyCard() {
+    const p = $('#myCard'); if (p) p.innerHTML = cardHTML(me());
+    const c = $('#noteCount'); if (c) c.textContent = `${me().note.length}/140`;
   }
 
   // ---- Simulations ----
@@ -759,7 +739,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     const closed = visible().filter(h => h.id !== currentId && effective(h, t).state === 'closed');
     if (!closed.length) { toast('Every door is already open'); return; }
     const h = pick(closed);
-    setStatus(h, 'open', '2h');
+    openDoor(h);
     h.note = pick(SURPRISES);
     if (!watched.has(h.id)) toast(`${h.name} just opened up. Tap the bell on their card to get pinged next time.`);
     notifyCheck(); render();
@@ -771,24 +751,28 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     const act = b.dataset.act, id = b.dataset.id;
     const h = id && byId(id);
     switch (act) {
-      case 'tab': tab = b.dataset.tab; editing = false; window.scrollTo({ top: 0 }); break;
-      case 'change': tab = 'mine'; editing = true; draft = freshDraft(); window.scrollTo({ top: 0 }); break;
-      case 'cancel-edit': editing = false; draft = freshDraft(); break;
+      case 'tab': tab = b.dataset.tab; window.scrollTo({ top: 0 }); break;
+      case 'open': {
+        const m = me();
+        openDoor(m);
+        prevStates = snapshot();
+        toast(`🚪 Your door is open until ${fmtTime(m.manual.until)}`);
+        simulateVisitor();
+        break;
+      }
+      case 'close': closeDoor(me()); prevStates = snapshot(); toast('Door closed'); break;
+      case 'textfirst': {
+        const m = me();
+        m.manual.state = m.manual.state === 'text' ? 'open' : 'text';
+        toast(m.manual.state === 'text' ? '💬 Friends will text you first' : '🚪 Back to come on by');
+        break;
+      }
       case 'group': groupFilter = b.dataset.g; break;
       case 'new-group': toast('Coming soon: name a group and share an invite link'); return;
       case 'bell':
         if (watched.has(id)) watched.delete(id); else watched.add(id);
         toast(watched.has(id) ? `🔔 We'll tell you when ${h.name} ${verb(h.name, 'opens', 'open')} up` : `🔕 No more pings for ${h.name}`);
         break;
-      case 'quick': {
-        const m = me(), st = b.dataset.state;
-        setStatus(m, st, m.dur || '2h');
-        draft = freshDraft();
-        prevStates = snapshot();
-        toast(st === 'closed' ? `Door closed until ${fmtWhen(m.manual.until)}` : `${st === 'open' ? '🚪 Door open' : '💬 Text first'} until ${fmtWhen(m.manual.until)}${m.note ? '' : '. Add a note so friends know what\'s up!'}`);
-        if (st === 'open') simulateVisitor();
-        break;
-      }
       case 'omw':
         h.visitors = h.visitors.filter(v => v.from !== currentId);
         h.visitors.push({ from: currentId, at: now() });
@@ -800,20 +784,7 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
         toast(`💬 Sent ${h.name} a "can I swing by?"`);
         setTimeout(() => toast(`💬 ${h.name}: "Yes! Come over, we're out back"`), 3200);
         break;
-      case 'state': draft.state = b.dataset.state; break;
-      case 'dur': draft.dur = b.dataset.dur; break;
-      case 'idea': draft.note = IDEAS[Number(b.dataset.i)]; break;
-      case 'share': {
-        const m = me();
-        setStatus(m, draft.state, draft.dur);
-        m.note = draft.note.trim(); m.where = draft.where.trim();
-        editing = false;
-        toast(draft.state === 'closed' ? `Door closed until ${fmtWhen(m.manual.until)}` : `✨ Saved! Your status ends at ${fmtWhen(m.manual.until)}`);
-        if (draft.state === 'open') simulateVisitor();
-        prevStates = snapshot();
-        break;
-      }
-      case 'clear': me().manual = null; draft = freshDraft(); toast('Back to your regular open hours'); prevStates = snapshot(); break;
+      case 'idea': me().note = IDEAS[Number(b.dataset.i)]; break;
       case 'color': me().color = b.dataset.k; break;
       case 'pattern': me().pattern = b.dataset.k; break;
       case 'hours-day': {
@@ -835,11 +806,11 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
 
   document.addEventListener('input', ev => {
     const el = ev.target;
-    if (el.id === 'note') { draft.note = el.value; refreshPreview(); }
-    else if (el.id === 'where') { draft.where = el.value; refreshPreview(); }
+    if (el.id === 'note') { me().note = el.value; refreshMyCard(); }
+    else if (el.id === 'where') { me().where = el.value; }
     else if (el.id === 'hoursNote') { me().hoursNote = el.value; }
-    else if (el.id === 'hname') { me().name = el.value; refreshPreview(); renderWho(); }
-    else if (el.id === 'hmembers') { me().members = el.value; refreshPreview(); }
+    else if (el.id === 'hname') { me().name = el.value; refreshMyCard(); renderWho(); }
+    else if (el.id === 'hmembers') { me().members = el.value; refreshMyCard(); }
   });
   document.addEventListener('toggle', ev => {
     if (ev.target.id === 'settingsBox') settingsOpen = ev.target.open;
@@ -847,7 +818,8 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
   }, true);
   document.addEventListener('change', ev => {
     const el = ev.target;
-    if (el.id === 'whoami') { currentId = el.value; draft = freshDraft(); editing = false; prevStates = snapshot(); render(); toast(`You're now ${me().name}. High trust mode!`); return; }
+    if (el.id === 'endSel') { me().manual.until = Number(el.value); toast(`Open until ${fmtWhen(me().manual.until)}`); render(); return; }
+    if (el.id === 'whoami') { currentId = el.value; prevStates = snapshot(); render(); toast(`You're now ${me().name}. High trust mode!`); return; }
     if (el.dataset.hours && el.value) {
       const w = me().hours.find(x => x.id === Number(el.dataset.w));
       w[el.dataset.hours] = el.value;
