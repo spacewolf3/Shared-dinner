@@ -812,6 +812,12 @@ textarea.input { resize: vertical; min-height: 78px; font: 600 22px/1.15 var(--f
     else if (el.id === 'hname') { me().name = el.value; refreshMyCard(); renderWho(); }
     else if (el.id === 'hmembers') { me().members = el.value; refreshMyCard(); }
   });
+  // Tapping into the note selects it, so you can type right over it or leave it as is
+  document.addEventListener('focusin', ev => {
+    const el = ev.target;
+    if (el.id !== 'note') return;
+    setTimeout(() => { try { el.setSelectionRange(0, el.value.length); } catch (e) { el.select(); } }, 0);
+  });
   document.addEventListener('toggle', ev => {
     if (ev.target.id === 'settingsBox') settingsOpen = ev.target.open;
     if (ev.target.id === 'proto') { try { localStorage.setItem('od-proto-open', ev.target.open ? '1' : '0'); } catch (e) {} }
